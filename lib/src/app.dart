@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/splash_screen.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -8,11 +10,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'News App',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text('App Widget'),
-        ),
-      ),
+      home: SplashScreen(),
     );
   }
 }
