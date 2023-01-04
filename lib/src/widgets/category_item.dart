@@ -25,7 +25,9 @@ class CategoryItem extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
         padding: padding,
         decoration: BoxDecoration(
-          color: isSelected ? primary : const Color(0xfff3f3f4),
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : const Color(0xfff3f3f4),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -45,7 +47,9 @@ class CategoryItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 18,
-                color: isSelected ? textColor : darker,
+                color: isSelected
+                    ? Theme.of(context).secondaryHeaderColor
+                    : darker,
                 fontWeight: FontWeight.bold,
               ),
             )
