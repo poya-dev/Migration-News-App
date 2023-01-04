@@ -42,6 +42,7 @@ class IconBox extends StatelessWidget {
               )
           ],
         ),
+        child: child,
       ),
     );
   }
