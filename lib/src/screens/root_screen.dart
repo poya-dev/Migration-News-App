@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/color.dart';
+import './home_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -13,9 +14,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _activeTabIndex = 0;
   final List _pages = [
     {
-      "page": const Center(
-        child: Text('Bookmark screen'),
-      ),
+      "page": const HomeScreen(),
     },
     {
       "page": const Center(
