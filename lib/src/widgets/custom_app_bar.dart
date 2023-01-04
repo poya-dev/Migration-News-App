@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 width: 8,
               ),
               const Text(
-                'Amir mohammad',
+                'Karim Mohammadi',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
