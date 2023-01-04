@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../widgets/custom_round_textbox.dart';
+import '../widgets/custom_app_bar.dart';
 import '../widgets/category_item.dart';
 import '../widgets/news_item.dart';
 import '../widgets/icon_box.dart';
@@ -23,45 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                IconBox(
-                  child: SvgPicture.asset(
-                    'assets/icons/profile.svg',
-                    color: darker,
-                    width: 28,
-                    height: 28,
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                const Text(
-                  'Amir mohammad',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-            IconBox(
-              child: SvgPicture.asset(
-                'assets/icons/logo.svg',
-                color: darker,
-                width: 28,
-                height: 28,
-              ),
-            ),
-          ],
-        ),
-      ),
+      appBar: const CustomAppBar(),
       body: Container(
         child: RefreshIndicator(
           onRefresh: () async {},
