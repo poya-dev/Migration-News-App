@@ -8,42 +8,28 @@ class CustomRoundTextBox extends StatelessWidget {
     this.hint = "",
     this.prefix,
     this.suffix,
-    this.controller,
-    this.readOnly = false,
-    this.boxShadow,
-    this.contentPadding,
+    this.onTap,
   }) : super(key: key);
   final String hint;
   final Widget? prefix;
   final Widget? suffix;
-  final bool readOnly;
-  final BoxShadow? boxShadow;
-  final EdgeInsetsGeometry? contentPadding;
-  final TextEditingController? controller;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    BoxShadow _boxShadow = boxShadow ??
-        BoxShadow(
-          color: shadowColor.withOpacity(0.05),
-          spreadRadius: 1,
-          blurRadius: 1,
-          offset: const Offset(0, 1), // changes position of shadow
-        );
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.only(bottom: 3),
       height: 40,
       decoration: BoxDecoration(
-        color: textBoxColor,
+        color: const Color.fromARGB(255, 223, 223, 224),
         border: Border.all(color: textBoxColor),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [_boxShadow],
       ),
       child: TextField(
-        readOnly: readOnly,
-        controller: controller,
+        readOnly: true,
+        onTap: onTap,
         decoration: InputDecoration(
-          contentPadding: contentPadding,
+          contentPadding: const EdgeInsets.symmetric(vertical: 5),
           prefixIcon: prefix,
           suffixIcon: suffix,
           border: InputBorder.none,
