@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './custom_image.dart';
 import '../theme/color.dart';
 
 class CategoryItem extends StatelessWidget {
