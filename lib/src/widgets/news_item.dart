@@ -49,6 +49,8 @@ class NewsItem extends StatelessWidget {
               ),
               child: Text(
                 data['title'],
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.w700,
