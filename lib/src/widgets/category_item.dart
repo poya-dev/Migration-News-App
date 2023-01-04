@@ -25,8 +25,8 @@ class CategoryItem extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
         padding: padding,
         decoration: BoxDecoration(
-          color: isSelected ? primary : cardColor,
-          borderRadius: BorderRadius.circular(20),
+          color: isSelected ? primary : const Color(0xfff3f3f4),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: shadowColor.withOpacity(0.07),
@@ -44,9 +44,9 @@ class CategoryItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 18,
                 color: isSelected ? textColor : darker,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
               ),
             )
           ],
