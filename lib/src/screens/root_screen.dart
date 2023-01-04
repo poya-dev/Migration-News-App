@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './home_screen.dart';
 import '../theme/color.dart';
 
 class RootScreen extends StatefulWidget {
