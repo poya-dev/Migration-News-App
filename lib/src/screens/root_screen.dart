@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/color.dart';
 import './home_screen.dart';
+import './bookmark_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -17,19 +18,17 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       "page": const HomeScreen(),
     },
     {
-      "page": const Center(
-        child: Text('Bookmark screen'),
-      ),
+      "page": const BookmarkScreen(),
     },
     {
       "page": const Center(
-        child: Text('Search screen'),
+        child: Text('Consulting screen'),
       ),
     },
   ];
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 1000),
+    duration: const Duration(microseconds: 1000),
     vsync: this,
   );
 
@@ -82,23 +81,38 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   Widget buildBottomNavBar() {
     return BottomNavigationBar(
       elevation: 1,
-      selectedFontSize: 12,
+      selectedFontSize: 14,
       currentIndex: _activeTabIndex,
-      type: BottomNavigationBarType.fixed,
+      iconSize: 28,
       onTap: onPageChanged,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(
+            Icons.home_outlined,
+          ),
+          activeIcon: Icon(
+            Icons.home,
+          ),
           label: 'Home',
           tooltip: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
+          icon: Icon(
+            Icons.bookmark_outline,
+          ),
+          activeIcon: Icon(
+            Icons.bookmark,
+          ),
           label: 'Bookmark',
           tooltip: 'Bookmark',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.call),
+          icon: Icon(
+            Icons.call,
+          ),
+          activeIcon: Icon(
+            Icons.call_rounded,
+          ),
           label: 'Consulting',
           tooltip: 'Consulting',
         ),
