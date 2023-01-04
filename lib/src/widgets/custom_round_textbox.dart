@@ -21,7 +21,7 @@ class CustomRoundTextBox extends StatelessWidget {
       alignment: Alignment.center,
       height: 40,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 223, 223, 224),
+        color: const Color(0xfff3f3f4),
         border: Border.all(color: textBoxColor),
         borderRadius: BorderRadius.circular(10),
       ),
