@@ -25,7 +25,7 @@ class CategoryItem extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).primaryColor
+              ? Colors.lightBlue.withOpacity(0.7)
               : const Color(0xfff3f3f4),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
