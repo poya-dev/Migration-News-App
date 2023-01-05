@@ -67,7 +67,7 @@ class NewsItem extends StatelessWidget {
                   IconButton(
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.bookmark_outline_outlined,
+                      Icons.favorite_outline,
                       color: Colors.black38,
                       size: 32,
                     ),

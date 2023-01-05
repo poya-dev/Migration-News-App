@@ -24,9 +24,7 @@ class CategoryItem extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
         padding: padding,
         decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.lightBlue.withOpacity(0.7)
-              : const Color(0xfff3f3f4),
+          color: isSelected ? Colors.lightBlue : const Color(0xfff3f3f4),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(

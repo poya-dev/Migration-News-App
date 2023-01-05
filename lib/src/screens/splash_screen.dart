@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue.withOpacity(0.7),
+      backgroundColor: Colors.lightBlue,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 12,
           ),
           const Text(
             'MIGRATION',
@@ -57,7 +57,8 @@ class _SplashScreenState extends State<SplashScreen> {
               color: Colors.white,
               fontSize: 30,
               wordSpacing: 3,
-              fontWeight: FontWeight.bold,
+              letterSpacing: 2.5,
+              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(
@@ -68,15 +69,14 @@ class _SplashScreenState extends State<SplashScreen> {
             style: TextStyle(
               color: Colors.white,
               fontSize: 28,
-              wordSpacing: 3,
               fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 32,
           ),
           const CircularProgressIndicator(
-            strokeWidth: 2.0,
+            strokeWidth: 1.5,
             color: Colors.white,
           )
         ],

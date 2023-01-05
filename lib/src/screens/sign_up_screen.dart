@@ -52,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SocialButton(
                 text: 'ورود با فیسبوک',
-                color: Colors.blue,
+                color: const Color.fromARGB(255, 36, 130, 207),
                 icon: 'assets/icons/facebook_logo.svg',
                 onTap: () {
                   Navigator.pushReplacement(
@@ -68,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               SocialButton(
                 text: 'ورود با گوگل',
-                color: const Color.fromARGB(255, 190, 22, 10),
+                color: const Color.fromARGB(255, 233, 10, 5).withOpacity(0.7),
                 icon: 'assets/icons/google_logo.svg',
                 onTap: () {
                   Navigator.pushReplacement(

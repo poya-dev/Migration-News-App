@@ -45,8 +45,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 margin: const EdgeInsets.only(top: 32),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'به',
                       style: TextStyle(
                         fontSize: 20,
@@ -54,21 +54,21 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 4,
                     ),
                     Text(
                       'معلومات مهاجرت',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.lightBlue.withOpacity(0.7),
+                        color: Colors.lightBlue,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 4,
                     ),
-                    const Text(
+                    Text(
                       'خوش آمدید',
                       style: TextStyle(
                         fontSize: 20,
@@ -118,7 +118,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                        Colors.lightBlue.withOpacity(0.7),
+                        Colors.lightBlue,
                       )),
                       onPressed: () {
                         Navigator.pushReplacement(

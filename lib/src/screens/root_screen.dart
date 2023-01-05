@@ -84,6 +84,9 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       currentIndex: _activeTabIndex,
       iconSize: 28,
       onTap: onPageChanged,
+      selectedIconTheme: const IconThemeData(
+        color: Colors.lightBlue,
+      ),
       items: const [
         BottomNavigationBarItem(
           icon: Icon(
@@ -97,20 +100,20 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.bookmark_outline,
+            Icons.favorite_outline,
           ),
           activeIcon: Icon(
-            Icons.bookmark,
+            Icons.favorite,
           ),
-          label: 'Bookmark',
-          tooltip: 'Bookmark',
+          label: 'Favorite',
+          tooltip: 'Favorite',
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.call,
+            Icons.support_agent_outlined,
           ),
           activeIcon: Icon(
-            Icons.call_rounded,
+            Icons.support_agent_rounded,
           ),
           label: 'Consulting',
           tooltip: 'Consulting',
