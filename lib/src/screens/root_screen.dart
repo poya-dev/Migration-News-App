@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/color.dart';
 import './home_screen.dart';
 import './bookmark_screen.dart';
+import './consulting_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -21,9 +22,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       "page": const BookmarkScreen(),
     },
     {
-      "page": const Center(
-        child: Text('Consulting screen'),
-      ),
+      "page": const ConsultingScreen(),
     },
   ];
 
