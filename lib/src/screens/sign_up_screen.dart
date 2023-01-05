@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../widgets/social_button.dart';
+import './language_selection_screen.dart';
 import './root_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -57,7 +58,7 @@ class SignUpScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RootScreen(),
+                      builder: (context) => const LanguageSelectionScreen(),
                     ),
                   );
                 },
@@ -73,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RootScreen(),
+                      builder: (context) => const LanguageSelectionScreen(),
                     ),
                   );
                 },
