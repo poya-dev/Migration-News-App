@@ -14,6 +14,7 @@ class AppLocalizationSetup {
       [
     AppLocalizations.delegate,
     GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate
   ];
 }
