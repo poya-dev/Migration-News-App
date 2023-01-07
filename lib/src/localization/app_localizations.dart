@@ -14,12 +14,12 @@ class AppLocalizations {
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
-      const AppLocalizationsDelegate();
+      AppLocalizationsDelegate();
 
   Map<String, dynamic>? _localizedString;
   Future<void> load() async {
     String jsonString =
-        await rootBundle.loadString('lang/${locale.languageCode}.json');
+        await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
     _localizedString = jsonMap.map(
       (key, value) => MapEntry(
