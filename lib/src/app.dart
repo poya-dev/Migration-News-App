@@ -23,19 +23,16 @@ class MyApp extends StatelessWidget {
             title: 'News App',
             debugShowCheckedModeBanner: false,
             locale: state.locale,
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('fa', 'IR'),
-              Locale('ps', 'PT')
-            ],
+            supportedLocales: AppLocalizationSetup.supportedLocale,
             localizationsDelegates: AppLocalizationSetup.localizationsDelegate,
-            localeResolutionCallback: (locale, supportedLocales) {
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale!.languageCode &&
-                    supportedLocale.countryCode == locale.countryCode) {
-                  return supportedLocale;
+            localeResolutionCallback: (currentLocal, supportedLocales) {
+              for (var locale in supportedLocales) {
+                if (currentLocal != null &&
+                    currentLocal.languageCode == locale.languageCode) {
+                  return currentLocal;
                 }
               }
+              return supportedLocales.first;
             },
             home: const SplashScreen(),
           );
