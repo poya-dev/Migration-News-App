@@ -12,7 +12,7 @@ class SocialButton extends StatelessWidget {
 
   final String text;
   final Color color;
-  final String icon;
+  final IconData icon;
   final Function() onTap;
 
   @override
@@ -31,7 +31,7 @@ class SocialButton extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SvgPicture.asset(icon),
+              child: Icon(icon, color: Colors.white),
             ),
             const SizedBox(
               width: 12,
