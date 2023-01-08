@@ -42,34 +42,10 @@ class _SplashScreenState extends State<SplashScreen> {
             child: SizedBox(
               height: 200,
               width: 200,
-              child: SvgPicture.asset(
-                'assets/icons/logo.svg',
+              child: Image.asset(
+                'assets/icons/logo-white-1024x1024.png',
                 fit: BoxFit.cover,
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          const Text(
-            'MIGRATION',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              wordSpacing: 3,
-              letterSpacing: 2.5,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          const Text(
-            'INFORMATION',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w400,
             ),
           ),
           const SizedBox(
