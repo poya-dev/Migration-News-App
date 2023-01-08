@@ -41,8 +41,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   child: SizedBox(
                     height: 200,
                     width: 200,
-                    child: SvgPicture.asset(
-                      'assets/icons/logo.svg',
+                    child: Image.asset(
+                      'assets/icons/logo-blue-300x300.png',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -126,9 +126,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                          Colors.lightBlue,
-                        )),
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.lightBlue,
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
