@@ -1,15 +1,13 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/custom_app_bar.dart';
+import '../screens/search_screen.dart';
 import '../widgets/category_item.dart';
 import '../widgets/news_item.dart';
-import '../widgets/icon_box.dart';
 import '../utils/data.dart';
-import '../theme/color.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,10 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                       child: CustomRoundTextBox(
                         hint: "جستجو",
-                        prefix: const Icon(Icons.search, color: Colors.grey),
+                        isReadOnly: true,
+                        prefix: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
                         onTap: () {
-                          // ignore: avoid_print
-                          print('Hello searching...');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchScreen(),
+                            ),
+                          );
                         },
                       ),
                     ),
