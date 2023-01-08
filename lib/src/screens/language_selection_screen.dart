@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../blocs/locale/locale_bloc.dart';
 import '../blocs/locale/locale_event.dart';
 import '../blocs/locale/locale_state.dart';
 import '../widgets/language_item.dart';
 import '../utils/translation_util.dart';
-import './root_screen.dart';
+import './sign_up_screen.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -18,7 +19,7 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
-  final languages = ['دری', 'پشتو', 'English'];
+  final languages = ['دری', 'پشتو'];
   int selectedLanguageIndex = 0;
 
   @override
@@ -101,7 +102,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   children: List.generate(
                     languages.length,
                     (index) => LanguageItem(
-                      icon: Icons.language,
+                      icon: 'assets/icons/afghanistan.svg',
                       language: languages[index],
                       isSelected: index == selectedLanguageIndex,
                       onTap: () {
@@ -132,7 +133,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const RootScreen(),
+                              builder: (context) => const SignUpScreen(),
                             ),
                           );
                         },
