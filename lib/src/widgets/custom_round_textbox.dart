@@ -6,11 +6,17 @@ class CustomRoundTextBox extends StatelessWidget {
   const CustomRoundTextBox({
     Key? key,
     this.hint = "",
+    this.isReadOnly = false,
+    this.isAutoFocus = false,
+    this.controller,
     this.prefix,
     this.suffix,
     this.onTap,
   }) : super(key: key);
   final String hint;
+  final bool isReadOnly;
+  final bool isAutoFocus;
+  final TextEditingController? controller;
   final Widget? prefix;
   final Widget? suffix;
   final VoidCallback? onTap;
@@ -26,7 +32,9 @@ class CustomRoundTextBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(
-        readOnly: true,
+        readOnly: isReadOnly,
+        controller: controller,
+        autofocus: isAutoFocus,
         onTap: onTap,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
