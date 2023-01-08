@@ -100,13 +100,13 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.favorite_outline,
+            Icons.bookmark_outline,
           ),
           activeIcon: Icon(
-            Icons.favorite,
+            Icons.bookmark,
           ),
-          label: 'Favorite',
-          tooltip: 'Favorite',
+          label: 'Bookmarks',
+          tooltip: 'Bookmarks',
         ),
         BottomNavigationBarItem(
           icon: Icon(
