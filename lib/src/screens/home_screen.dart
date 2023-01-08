@@ -60,9 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: List.generate(
                     categories.length,
                     (index) => Padding(
-                      padding: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.only(right: 10),
                       child: CategoryItem(
-                        padding: const EdgeInsets.fromLTRB(12, 8, 8, 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 4),
                         data: categories[index],
                         isSelected: index == _selectedCategoryIndex,
                         onTap: () {
