@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/social_button.dart';
-import './language_selection_screen.dart';
 import './root_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -51,12 +51,12 @@ class SignUpScreen extends StatelessWidget {
             SocialButton(
               text: 'ورود با فیسبوک',
               color: const Color.fromARGB(255, 36, 130, 207),
-              icon: 'assets/icons/facebook_logo.svg',
+              icon: FontAwesomeIcons.facebookF,
               onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LanguageSelectionScreen(),
+                    builder: (context) => const RootScreen(),
                   ),
                 );
               },
@@ -67,12 +67,12 @@ class SignUpScreen extends StatelessWidget {
             SocialButton(
               text: 'ورود با گوگل',
               color: const Color.fromARGB(255, 233, 10, 5).withOpacity(0.7),
-              icon: 'assets/icons/google_logo.svg',
+              icon: FontAwesomeIcons.google,
               onTap: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LanguageSelectionScreen(),
+                    builder: (context) => const RootScreen(),
                   ),
                 );
               },
