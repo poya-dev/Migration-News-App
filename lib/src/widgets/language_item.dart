@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme/color.dart';
 
@@ -11,7 +12,7 @@ class LanguageItem extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  final IconData icon;
+  final String icon;
   final String language;
   final bool isSelected;
   final GestureTapCallback? onTap;
@@ -37,7 +38,12 @@ class LanguageItem extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          leading: Icon(icon),
+          leading: SvgPicture.asset(
+            icon,
+            height: 24,
+            width: 24,
+            fit: BoxFit.fitWidth,
+          ),
           title: Text(
             language,
             style: const TextStyle(
