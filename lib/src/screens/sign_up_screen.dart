@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/social_button.dart';
@@ -21,14 +20,14 @@ class SignUpScreen extends StatelessWidget {
               child: SizedBox(
                 height: 200,
                 width: 200,
-                child: SvgPicture.asset(
-                  'assets/icons/logo.svg',
+                child: Image.asset(
+                  'assets/icons/logo-blue-300x300.png',
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(
-              height: 12,
+              height: 30,
             ),
             const Padding(
               padding: EdgeInsets.all(8.0),
