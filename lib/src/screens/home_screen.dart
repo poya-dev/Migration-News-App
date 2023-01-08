@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: <Widget>[
                     Expanded(
                       child: CustomRoundTextBox(
-                        hint: "Search",
+                        hint: "جستجو",
                         prefix: const Icon(Icons.search, color: Colors.grey),
                         onTap: () {
                           // ignore: avoid_print
