@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../widgets/custom_image.dart';
 import '../theme/color.dart';
-import './icon_box.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({
@@ -28,9 +27,9 @@ class NewsItem extends StatelessWidget {
             top: BorderSide(width: .1, color: darker),
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomImage(
               data["image"],
@@ -60,36 +59,47 @@ class NewsItem extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 28),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite_outline,
-                      color: Colors.black38,
-                      size: 32,
-                    ),
-                  ),
-                  Text(
-                    data['category'],
-                    style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.favorite_outline,
+                          color: Colors.black38,
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          data['category'],
+                          style: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.visibility_outlined,
-                          color: Colors.black38,
-                          size: 32,
-                        ),
-                      ),
                       SafeArea(
                         child: Text(
                           data['view_count'],
@@ -98,6 +108,14 @@ class NewsItem extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.black38,
                           ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.visibility_outlined,
+                          color: Colors.black38,
+                          size: 24,
                         ),
                       ),
                     ],
