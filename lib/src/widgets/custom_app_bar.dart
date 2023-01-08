@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 width: 8,
               ),
               const Text(
-                'Karim Mohammadi',
+                'کریم محمدی',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -38,11 +38,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
           IconBox(
-            child: SvgPicture.asset(
-              'assets/icons/logo.svg',
-              color: darker,
-              width: 28,
-              height: 28,
+            isShadow: false,
+            child: Image.asset(
+              'assets/icons/logo-blue-300x300.png',
+              color: Colors.blue,
+              width: 32,
+              height: 32,
             ),
           ),
         ],
