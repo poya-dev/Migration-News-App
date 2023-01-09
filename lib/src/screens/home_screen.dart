@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/custom_app_bar.dart';
-import '../screens/search_screen.dart';
 import '../widgets/category_item.dart';
+import './news_details_screen.dart';
 import '../widgets/news_item.dart';
+import './search_screen.dart';
 import '../utils/data.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -83,6 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   return NewsItem(
                     data: news[index],
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            NewsDetailsScreen(data: news[index]),
+                      ),
+                    ),
                   );
                 },
               ),
