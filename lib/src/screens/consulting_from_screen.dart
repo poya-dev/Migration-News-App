@@ -28,6 +28,7 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
               children: [
                 CustomFormField(
                   hintText: 'اسم',
+                  icon: Icons.person,
                   validator: (val) {
                     if (val!.isEmpty) {
                       return 'لطفآ اسم تان را وارد نمایید';
@@ -36,6 +37,7 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                 ),
                 CustomFormField(
                   hintText: 'آدرس',
+                  icon: Icons.location_city,
                   validator: (val) {
                     if (val!.isEmpty) {
                       return 'لطفآ ادرس تان را وارد نمایید';
@@ -44,6 +46,7 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                 ),
                 CustomFormField(
                   hintText: 'نمبر تماس',
+                  icon: Icons.phone,
                   keyboardType: TextInputType.number,
                   validator: (val) {
                     if (val!.isEmpty) {

@@ -4,11 +4,13 @@ class CustomFormField extends StatelessWidget {
   const CustomFormField({
     Key? key,
     required this.hintText,
+    required this.icon,
     this.keyboardType,
     this.validator,
   }) : super(key: key);
 
   final String hintText;
+  final IconData icon;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
 
@@ -19,7 +21,10 @@ class CustomFormField extends StatelessWidget {
       child: TextFormField(
         keyboardType: keyboardType,
         validator: validator,
-        decoration: InputDecoration(hintText: hintText),
+        decoration: InputDecoration(
+          hintText: hintText,
+          icon: Icon(icon),
+        ),
       ),
     );
   }
