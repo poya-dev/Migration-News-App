@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/consulting_response_message.dart';
 import '../widgets/custom_app_bar.dart';
+import './consulting_from_screen.dart';
 import '../utils/data.dart';
 
 class ConsultingScreen extends StatelessWidget {
@@ -37,7 +38,14 @@ class ConsultingScreen extends StatelessWidget {
                   padding: MaterialStatePropertyAll(EdgeInsets.all(10)),
                   backgroundColor: MaterialStatePropertyAll(Colors.lightBlue),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ConsultingFormScreen(),
+                    ),
+                  );
+                },
                 child: const Text(
                   'فورم مشاوره تلفونی',
                   style: TextStyle(
