@@ -9,7 +9,7 @@ class IconBox extends StatelessWidget {
     this.borderColor = Colors.transparent,
     this.bgColor = Colors.white,
     this.radius = 50,
-    this.padding = 5,
+    this.padding = const EdgeInsets.all(5),
     this.onTap,
     this.isShadow = true,
   }) : super(key: key);
@@ -18,7 +18,7 @@ class IconBox extends StatelessWidget {
   final Color borderColor;
   final Color bgColor;
   final double radius;
-  final double padding;
+  final EdgeInsetsGeometry padding;
   final GestureTapCallback? onTap;
   final bool isShadow;
 
@@ -27,7 +27,7 @@ class IconBox extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(padding),
+        padding: padding,
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(radius),
