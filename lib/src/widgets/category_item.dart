@@ -20,8 +20,8 @@ class CategoryItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.fastOutSlowIn,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInCirc,
         padding: padding,
         decoration: BoxDecoration(
           color: isSelected ? Colors.lightBlue : const Color(0xfff3f3f4),
@@ -39,7 +39,7 @@ class CategoryItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              data["name"],
+              data.name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
