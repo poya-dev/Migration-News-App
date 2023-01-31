@@ -47,6 +47,8 @@ dependencies:
   flutter_html: ^3.0.0-alpha.5
   url_launcher: ^6.1.7
   webview_flutter: ^4.0.1
+  google_sign_in: ^5.4.4
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
