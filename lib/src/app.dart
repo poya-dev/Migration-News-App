@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import './localization/app_localizations_setup.dart';
 import './blocs/locale/locale_bloc.dart';
 import './blocs/locale/locale_state.dart';
+import './blocs/auth/auth_bloc.dart';
+import './blocs/auth/auth_state.dart';
+import './repositories/user_repository.dart';
 import './screens/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -16,6 +19,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LocaleBloc(),
         ),
+        BlocProvider(
+          create: (context) => AuthBloc(
+            userRepository: UserRepository(),
+          ),
+        )
       ],
       child: BlocBuilder<LocaleBloc, LocaleState>(
         builder: (context, state) {
