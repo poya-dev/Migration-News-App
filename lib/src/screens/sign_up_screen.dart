@@ -79,12 +79,7 @@ class SignUpScreen extends StatelessWidget {
                     color: const Color.fromARGB(255, 36, 130, 207),
                     icon: FontAwesomeIcons.facebookF,
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RootScreen(),
-                        ),
-                      );
+                      context.read<AuthBloc>().add(FacebookSignInRequested());
                     },
                   ),
                   const SizedBox(
