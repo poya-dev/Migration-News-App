@@ -5,7 +5,9 @@ import './localization/app_localizations_setup.dart';
 import './blocs/locale/locale_bloc.dart';
 import './blocs/locale/locale_state.dart';
 import './blocs/auth/auth_bloc.dart';
+import './blocs/category/category_bloc.dart';
 import './repositories/user_repository.dart';
+import './repositories/news_repository.dart';
 import './screens/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -22,7 +24,12 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(
             userRepository: UserRepository(),
           ),
-        )
+        ),
+        BlocProvider(
+          create: (context) => CategoryBloc(
+            newsRepository: NewsRepository(),
+          ),
+        ),
       ],
       child: BlocBuilder<LocaleBloc, LocaleState>(
         builder: (context, state) {
