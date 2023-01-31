@@ -5,7 +5,6 @@ import './localization/app_localizations_setup.dart';
 import './blocs/locale/locale_bloc.dart';
 import './blocs/locale/locale_state.dart';
 import './blocs/auth/auth_bloc.dart';
-import './blocs/auth/auth_state.dart';
 import './repositories/user_repository.dart';
 import './screens/splash_screen.dart';
 
