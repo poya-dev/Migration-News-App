@@ -50,11 +50,9 @@ class ApiService {
       );
       final body = json.decode(response.body);
       if (response.statusCode == 200) {
-        final List<Category> categoryList =
-            body['data'].map<Category>((categoryItem) {
-          return Category.fromJson(categoryItem);
-        }).toList();
-        return Response(data: categoryList);
+        return body['data']
+            .map<Category>((categoryItem) => Category.fromJson(categoryItem))
+            .toList();
       }
       throw Exception('Failed to get news category');
     } catch (error) {
@@ -72,9 +70,9 @@ class ApiService {
         final body = json.decode(response.body);
         final currentPage = body['currentPage'];
         final lastPage = body['lastPage'];
-        final List<News> newsList = body['data'].map<News>((newsItem) {
-          return News.fromJson(newsItem);
-        }).toList();
+        final List<News> newsList = body['data']
+            .map<News>((newsItem) => News.fromJson(newsItem))
+            .toList();
         return Response(
           data: newsList,
           currentPage: currentPage,
