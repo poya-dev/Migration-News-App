@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/custom_image.dart';
 import '../theme/color.dart';
+import '../models/news.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({
@@ -12,7 +13,7 @@ class NewsItem extends StatelessWidget {
     this.onFavoriteTap,
   }) : super(key: key);
 
-  final Map data;
+  final News data;
   final double width;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onFavoriteTap;
@@ -32,7 +33,7 @@ class NewsItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomImage(
-              data["image"],
+              data.imageUrl,
               radius: 0,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -48,7 +49,7 @@ class NewsItem extends StatelessWidget {
                 vertical: 8,
               ),
               child: Text(
-                data['title'],
+                data.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -88,7 +89,7 @@ class NewsItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          data['category'],
+                          data.category.name,
                           style: const TextStyle(
                             color: Colors.black54,
                             fontSize: 18,
@@ -102,7 +103,7 @@ class NewsItem extends StatelessWidget {
                     children: [
                       SafeArea(
                         child: Text(
-                          data['view_count'],
+                          data.viewCount.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
