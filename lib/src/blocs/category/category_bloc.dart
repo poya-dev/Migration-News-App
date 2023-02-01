@@ -10,11 +10,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<CategoryFetched>(
       (event, emit) async {
         emit(CategoryLoading());
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 3));
         try {
           final String token = event.accessToken;
-          final categories = await newsRepository.getCategories(token);
-          emit(CategorySuccess(categories: categories));
+          final response = await newsRepository.getCategories(token);
+          emit(CategorySuccess(categories: response.data!));
         } catch (error) {
           emit(CategoryFailure(error: error.toString()));
         }
