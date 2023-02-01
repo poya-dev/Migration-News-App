@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/src/blocs/auth/auth_bloc.dart';
+import 'package:news_app/src/blocs/category/category_event.dart';
 
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/custom_app_bar.dart';
@@ -15,6 +16,7 @@ import './news_details_screen.dart';
 import '../widgets/news_item.dart';
 import './sign_up_screen.dart';
 import './search_screen.dart';
+import '../widgets/loader.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +27,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryIndex = 0;
+
+  String _accessToken = '';
+
+  final _scrollController = ScrollController();
+
+  bool _isVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,52 +57,64 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, authState) {
-          return Container(
-            padding: const EdgeInsets.all(6),
-            child: RefreshIndicator(
-              onRefresh: () async {},
-              child: ListView(
+          authState is Authenticated
+              ? _accessToken = authState.user.accessToken
+              : '';
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<CategoryBloc>().add(CategoryFetched(_accessToken));
+              context.read<NewsBloc>().add(NewsFetched(_accessToken));
+            },
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (notification.metrics.pixels > 0 && _isVisible) {
+                  setState(() => _isVisible = false);
+                } else if (notification.metrics.pixels <= 0 && !_isVisible) {
+                  setState(() => _isVisible = true);
+                }
+                return false;
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: CustomRoundTextBox(
-                            hint: "جستجو",
-                            isReadOnly: true,
-                            prefix: const Icon(
-                              Icons.search,
-                              color: Colors.grey,
+                  Visibility(
+                    visible: _isVisible,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: CustomRoundTextBox(
+                              hint: "جستجو",
+                              isReadOnly: true,
+                              prefix: const Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SearchScreen(),
+                                  ),
+                                );
+                              },
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SearchScreen(),
-                                ),
-                              );
-                            },
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, newsState) {
                       if (newsState is CategoryLoading) {
-                        return Container(
-                          padding: const EdgeInsets.all(6),
-                          child: const Center(
-                            child: Text('Category is loading..'),
-                          ),
-                        );
+                        return const Loader();
                       }
                       if (newsState is CategoryFailure) {
                         return Container(
                           padding: const EdgeInsets.all(6),
                           child: const Center(
-                            child: Text('Failed to load category'),
+                            child: Text('Failed to fetch category'),
                           ),
                         );
                       }
@@ -123,17 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Container();
                     },
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(6),
+                  Expanded(
                     child: BlocBuilder<NewsBloc, NewsState>(
                       builder: (context, state) {
                         if (state.status == Status.initial) {
-                          return Container(
-                            padding: const EdgeInsets.all(6),
-                            child: const Center(
-                              child: Text('News is loading..'),
-                            ),
-                          );
+                          return const Loader();
                         }
                         if (state.status == Status.failure) {
                           return Container(
@@ -147,20 +167,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           final news = state.news;
                           return ListView.builder(
                             shrinkWrap: true,
-                            itemCount: news.length,
-                            physics: const ScrollPhysics(),
+                            controller: _scrollController,
+                            itemCount: state.hasReachedMax
+                                ? state.news.length
+                                : state.news.length + 1,
+                            physics: const AlwaysScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return NewsItem(
-                                data: news[index],
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => NewsDetailsScreen(
+                              return index >= state.news.length
+                                  ? const Loader()
+                                  : NewsItem(
                                       data: news[index],
-                                    ),
-                                  ),
-                                ),
-                              );
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              NewsDetailsScreen(
+                                            data: news[index],
+                                          ),
+                                        ),
+                                      ),
+                                    );
                             },
                           );
                         }
@@ -175,5 +201,24 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) context.read<NewsBloc>().add(NewsFetched(_accessToken));
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }
