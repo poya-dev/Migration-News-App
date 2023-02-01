@@ -68,7 +68,7 @@ class ApiService {
   static Future<Response<List<News>>> getNews(String token, int page) async {
     try {
       final response = await client.get(
-        Uri.parse('$baseUrl/client/news'),
+        Uri.parse('$baseUrl/client/news?page=$page'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
