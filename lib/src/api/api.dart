@@ -1,29 +1,26 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../utils/constant.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../models/news.dart';
 import './response.dart';
-
-const baseUrl = 'http://192.168.13.96:3000/api/v1/';
 
 class ApiService {
   static final http.Client client = http.Client();
   static Future<User> signInWithGoogle(String idToken) async {
     try {
       final response = await client.get(
-        Uri.parse('$baseUrl/auth/google'),
-        headers: {
-          'Authorization': 'Bearer $idToken',
-          'Content-Type': 'application/json'
-        },
+        Uri.parse(ApiEndpoints.googleSinIn),
+        headers: {'Authorization': 'Bearer $idToken'},
       );
-      final resJson = json.decode(response.body);
-      return User.fromJson(resJson);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return User.fromJson(body);
+      }
+      throw Exception('Google authentication failed');
     } catch (error) {
       throw Exception(error.toString());
     }
@@ -32,14 +29,14 @@ class ApiService {
   static Future<User> signInWithFacebook(String token) async {
     try {
       final response = await client.post(
-        Uri.parse('$baseUrl/auth/facebook'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        },
+        Uri.parse(ApiEndpoints.facebookSinIn),
+        headers: {'Authorization': 'Bearer $token'},
       );
-      final resJson = json.decode(response.body);
-      return User.fromJson(resJson);
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return User.fromJson(body);
+      }
+      throw Exception('Facebook authentication failed');
     } catch (error) {
       throw Exception(error.toString());
     }
@@ -48,7 +45,7 @@ class ApiService {
   static Future<Response<List<Category>>> getCategories(String token) async {
     try {
       final response = await client.get(
-        Uri.parse('$baseUrl/client/news-category'),
+        Uri.parse(ApiEndpoints.category),
         headers: {'Authorization': 'Bearer $token'},
       );
       final body = json.decode(response.body);
@@ -59,7 +56,7 @@ class ApiService {
         }).toList();
         return Response(data: categoryList);
       }
-      throw Exception('Something went wrong ---> ${response.body}');
+      throw Exception('Failed to get news category');
     } catch (error) {
       throw Exception(error.toString());
     }
@@ -68,11 +65,11 @@ class ApiService {
   static Future<Response<List<News>>> getNews(String token, int page) async {
     try {
       final response = await client.get(
-        Uri.parse('$baseUrl/client/news?page=$page'),
+        Uri.parse('${ApiEndpoints.news}?page=$page'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
-        final body = jsonDecode(response.body);
+        final body = json.decode(response.body);
         final currentPage = body['currentPage'];
         final lastPage = body['lastPage'];
         final List<News> newsList = body['data'].map<News>((newsItem) {
@@ -84,7 +81,7 @@ class ApiService {
           lastPage: lastPage,
         );
       }
-      throw Exception('Something went wrong ---> ${response.body}');
+      throw Exception('Failed to get news data');
     } catch (error) {
       throw Exception(error.toString());
     }
