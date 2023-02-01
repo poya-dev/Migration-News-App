@@ -6,7 +6,7 @@ import '../../repositories/news_repository.dart';
 import './news_event.dart';
 import './news_state.dart';
 
-var page = 1;
+int page = 1;
 const throttleDuration = Duration(milliseconds: 100);
 
 EventTransformer<E> throttleDroppable<E>(Duration duration) {
