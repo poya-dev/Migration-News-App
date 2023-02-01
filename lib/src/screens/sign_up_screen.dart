@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../blocs/category/category_bloc.dart';
+import '../blocs/category/category_event.dart';
+import '../blocs/news/news_bloc.dart';
+import '../blocs/news/news_event.dart';
 import '../widgets/social_button.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
@@ -17,6 +21,9 @@ class SignUpScreen extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
+            final accessToken = state.user.accessToken;
+            context.read<CategoryBloc>().add(CategoryFetched(accessToken));
+            context.read<NewsBloc>().add(NewsFetched(accessToken));
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
