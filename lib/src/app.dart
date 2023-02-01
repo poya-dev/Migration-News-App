@@ -6,6 +6,7 @@ import './blocs/locale/locale_bloc.dart';
 import './blocs/locale/locale_state.dart';
 import './blocs/auth/auth_bloc.dart';
 import './blocs/category/category_bloc.dart';
+import './blocs/news/news_bloc.dart';
 import './repositories/user_repository.dart';
 import './repositories/news_repository.dart';
 import './screens/splash_screen.dart';
@@ -27,6 +28,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CategoryBloc(
+            newsRepository: NewsRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => NewsBloc(
             newsRepository: NewsRepository(),
           ),
         ),
