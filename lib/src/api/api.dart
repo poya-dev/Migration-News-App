@@ -16,7 +16,7 @@ class ApiService {
         Uri.parse(ApiEndpoints.googleSinIn),
         headers: {'Authorization': 'Bearer $idToken'},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final body = json.decode(response.body);
         return User.fromJson(body);
       }
@@ -32,7 +32,7 @@ class ApiService {
         Uri.parse(ApiEndpoints.facebookSinIn),
         headers: {'Authorization': 'Bearer $token'},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final body = json.decode(response.body);
         return User.fromJson(body);
       }
@@ -50,9 +50,10 @@ class ApiService {
       );
       final body = json.decode(response.body);
       if (response.statusCode == 200) {
-        return body['data']
-            .map<Category>((categoryItem) => Category.fromJson(categoryItem))
-            .toList();
+        List<Category> categories = body['data'].map<Category>((categoryItem) {
+          return Category.fromJson(categoryItem);
+        }).toList();
+        return Response(data: categories);
       }
       throw Exception('Failed to get news category');
     } catch (error) {
