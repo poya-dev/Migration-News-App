@@ -52,6 +52,7 @@ dependencies:
   http: ^0.13.5
   bloc_concurrency: ^0.2.0
   stream_transform: ^2.0.0
+  socket_io_client: ^2.0.1
 
 dev_dependencies:
   flutter_test:
