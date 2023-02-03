@@ -13,3 +13,12 @@ class CategoryFetched extends CategoryEvent {
   @override
   List<Object> get props => [accessToken];
 }
+
+class CategoryRefreshed extends CategoryEvent {
+  CategoryRefreshed(this.accessToken);
+
+  final String accessToken;
+
+  @override
+  List<Object> get props => [accessToken];
+}

@@ -20,5 +20,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         }
       },
     );
+    on<CategoryRefreshed>((event, emit) async {
+      await Future.delayed(const Duration(seconds: 3));
+      try {
+        final String token = event.accessToken;
+        final response = await newsRepository.getCategories(token);
+        emit(CategorySuccess(categories: response.data!));
+      } catch (error) {
+        emit(CategoryFailure(error: error.toString()));
+      }
+    });
   }
 }
