@@ -62,8 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
               : '';
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<CategoryBloc>().add(CategoryFetched(_accessToken));
-              context.read<NewsBloc>().add(NewsFetched(_accessToken));
+              context.read<CategoryBloc>().add(CategoryRefreshed(_accessToken));
+              context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+              return Future.delayed(const Duration(seconds: 3));
             },
             child: NotificationListener<ScrollNotification>(
               onNotification: (notification) {
