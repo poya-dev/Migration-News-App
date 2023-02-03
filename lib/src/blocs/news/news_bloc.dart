@@ -26,9 +26,13 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<NewsFetched>(_onNewsFetched,
         transformer: throttleDroppable(throttleDuration));
     on<NewsRefreshed>(_onRefreshed);
+    on<NewsBookmarked>(_onNewsBookmarked);
   }
 
-  Future _onNewsFetched(NewsFetched event, Emitter<NewsState> emit) async {
+  Future _onNewsFetched(
+    NewsFetched event,
+    Emitter<NewsState> emit,
+  ) async {
     try {
       final String token = event.accessToken;
       await Future.delayed(const Duration(seconds: 5));
@@ -60,7 +64,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     }
   }
 
-  Future _onRefreshed(NewsRefreshed event, Emitter<NewsState> emit) async {
+  Future _onRefreshed(
+    NewsRefreshed event,
+    Emitter<NewsState> emit,
+  ) async {
     try {
       final String token = event.accessToken;
       await Future.delayed(const Duration(seconds: 5));
@@ -73,6 +80,32 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         status: Status.success,
         hasReachedMax: reachedMax,
       ));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  Future _onNewsBookmarked(
+    NewsBookmarked event,
+    Emitter<NewsState> emit,
+  ) async {
+    try {
+      final accessToken = event.accessToken;
+      final newState = state.news.firstWhere((element) {
+        return element.id == event.newsId;
+      });
+      if (newState.id == event.newsId) {
+        newState.isBookmark = !newState.isBookmark;
+        emit(state.copyWith(
+          news: List.of(state.news)..add(newState),
+          status: Status.success,
+        ));
+      }
+      await newsRepository.toggleBookmark(
+        accessToken,
+        event.newsId,
+        newState.isBookmark,
+      );
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }
