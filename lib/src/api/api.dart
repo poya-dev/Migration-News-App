@@ -85,4 +85,25 @@ class ApiService {
       throw Exception(error.toString());
     }
   }
+
+  static Future<void> toggleBookmark(
+    String token,
+    String newsId,
+    bool add,
+  ) async {
+    try {
+      final String bookmarkEndpoint = add
+          ? '${ApiEndpoints.bookmark}/add/$newsId'
+          : '${ApiEndpoints.bookmark}/remove/$newsId';
+      final response = await client.put(
+        Uri.parse(bookmarkEndpoint),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Something went wrong');
+      }
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
 }
