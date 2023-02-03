@@ -4,11 +4,18 @@ import '../api/response.dart';
 import '../api/api.dart';
 
 class NewsRepository {
-  Future<Response<List<Category>>> getCategories(String idToken) async {
-    return await ApiService.getCategories(idToken);
+  Future<Response<List<Category>>> getCategories(
+    String accessToken,
+  ) async {
+    return await ApiService.getCategories(accessToken);
   }
 
-  Future<Response<List<News>>> getNews(String idToken, [int page = 1]) async {
-    return await ApiService.getNews(idToken, page);
+  Future<Response<List<News>>> getNews(String accessToken,
+      [int page = 1]) async {
+    return await ApiService.getNews(accessToken, page);
+  }
+
+  Future<void> toggleBookmark(String accessToken, String newsId, bool add) async {
+    return await ApiService.toggleBookmark(accessToken, newsId, add);
   }
 }
