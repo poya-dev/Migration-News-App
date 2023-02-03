@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 
 import '../theme/color.dart';
 import './home_screen.dart';
 import './bookmark_screen.dart';
 import './consulting_screen.dart';
+import '../blocs/badge/badge_bloc.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -14,17 +16,16 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _activeTabIndex = 0;
+  int _newsBadgeCount = 0;
+  int _consultingBadgeCount = 0;
+
   final List _pages = [
-    {
-      "page": const HomeScreen(),
-    },
-    {
-      "page": const BookmarkScreen(),
-    },
-    {
-      "page": const ConsultingScreen(),
-    },
+    {"page": const HomeScreen()},
+    {"page": const BookmarkScreen()},
+    {"page": const ConsultingScreen()}
   ];
+
+  final BadgeBloc _badgeBloc = BadgeBloc();
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(microseconds: 1000),
@@ -39,6 +40,15 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    _badgeBloc.newsBadge.listen(
+      (value) => setState(() => _newsBadgeCount = value),
+    );
+
+    _badgeBloc.consultingBadge.listen(
+      (value) => setState(() => _consultingBadgeCount = value),
+    );
+
     _controller.forward();
   }
 
@@ -84,21 +94,29 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       currentIndex: _activeTabIndex,
       iconSize: 28,
       onTap: onPageChanged,
-      selectedIconTheme: const IconThemeData(
-        color: Colors.lightBlue,
-      ),
-      items: const [
+      selectedIconTheme: const IconThemeData(color: Colors.lightBlue),
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home_outlined,
+          icon: Stack(
+            children: [
+              const Icon(
+                Icons.home_outlined,
+              ),
+              buildBadge(_newsBadgeCount)
+            ],
           ),
-          activeIcon: Icon(
-            Icons.home,
+          activeIcon: Stack(
+            children: [
+              const Icon(
+                Icons.home,
+              ),
+              buildBadge(_newsBadgeCount)
+            ],
           ),
           label: 'Home',
           tooltip: 'Home',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(
             Icons.bookmark_outline,
           ),
@@ -109,16 +127,32 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
           tooltip: 'Bookmarks',
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.support_agent_outlined,
+          icon: Stack(
+            children: [
+              const Icon(Icons.support_agent_outlined),
+              buildBadge(_consultingBadgeCount)
+            ],
           ),
-          activeIcon: Icon(
-            Icons.support_agent_rounded,
+          activeIcon: Stack(
+            children: [
+              const Icon(Icons.support_agent_rounded),
+              buildBadge(_consultingBadgeCount)
+            ],
           ),
           label: 'Consulting',
           tooltip: 'Consulting',
         ),
       ],
+    );
+  }
+
+  Widget buildBadge(int badgeCount) {
+    return badges.Badge(
+      badgeContent: Text(
+        "${badgeCount <= 10 ? badgeCount : '+10'}",
+        style: const TextStyle(fontSize: 7.5, color: Colors.white),
+      ),
+      showBadge: badgeCount > 0 ? true : false,
     );
   }
 
