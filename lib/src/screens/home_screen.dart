@@ -178,6 +178,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? const Loader()
                                   : NewsItem(
                                       data: news[index],
+                                      onBookmarkTap: () {
+                                        context.read<NewsBloc>().add(
+                                              NewsBookmarked(
+                                                _accessToken,
+                                                news[index].id,
+                                              ),
+                                            );
+                                      },
                                       onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
