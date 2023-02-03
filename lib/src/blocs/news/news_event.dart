@@ -22,3 +22,13 @@ class NewsRefreshed extends NewsEvent {
   @override
   List<Object> get props => [accessToken];
 }
+
+class NewsBookmarked extends NewsEvent {
+  NewsBookmarked(this.accessToken, this.newsId);
+
+  final String accessToken;
+  final String newsId;
+
+  @override
+  List<Object> get props => [accessToken, newsId];
+}
