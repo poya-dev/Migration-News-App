@@ -1,12 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 import '../../repositories/news_repository.dart';
+import '../../api/response.dart';
+import '../../models/news.dart';
 import './news_event.dart';
 import './news_state.dart';
 
-int page = 1;
 const throttleDuration = Duration(milliseconds: 100);
 
 EventTransformer<E> throttleDroppable<E>(Duration duration) {
@@ -16,12 +19,13 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 }
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
+  int page = 1;
+
   final NewsRepository newsRepository;
   NewsBloc({required this.newsRepository}) : super(const NewsState()) {
-    on<NewsFetched>(
-      _onNewsFetched,
-      transformer: throttleDroppable(throttleDuration),
-    );
+    on<NewsFetched>(_onNewsFetched,
+        transformer: throttleDroppable(throttleDuration));
+    on<NewsRefreshed>(_onRefreshed);
   }
 
   Future _onNewsFetched(NewsFetched event, Emitter<NewsState> emit) async {
@@ -31,30 +35,46 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       if (state.hasReachedMax) return;
       if (state.status == Status.initial) {
         final response = await newsRepository.getNews(token);
-        bool reachedMax =
-            response.currentPage! >= response.lastPage! ? true : false;
+        final int current = response.currentPage!;
+        final int last = response.lastPage!;
+        bool reachedMax = current >= last ? true : false;
         page++;
-        return emit(
-          state.copyWith(
-            news: response.data,
-            status: Status.success,
-            hasReachedMax: reachedMax,
-          ),
-        );
-      }
-      final response = await newsRepository.getNews(token, page);
-      bool reachedMax =
-          response.currentPage! >= response.lastPage! ? true : false;
-      emit(
-        state.copyWith(
-          news: List.of(state.news)..addAll(response.data!),
+        return emit(state.copyWith(
+          news: response.data,
           status: Status.success,
           hasReachedMax: reachedMax,
-        ),
-      );
+        ));
+      }
+      final Response<List<News>> news =
+          await newsRepository.getNews(token, page);
+      final int current = news.currentPage!;
+      final int last = news.lastPage!;
+      bool reachedMax = current >= last ? true : false;
+      emit(state.copyWith(
+          news: List.of(state.news)..addAll(news.data!),
+          status: Status.success,
+          hasReachedMax: reachedMax));
       page++;
-    } catch (error) {
-      emit(state.copyWith(error: error.toString()));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  Future _onRefreshed(NewsRefreshed event, Emitter<NewsState> emit) async {
+    try {
+      final String token = event.accessToken;
+      await Future.delayed(const Duration(seconds: 5));
+      final Response<List<News>> news = await newsRepository.getNews(token);
+      final int current = news.currentPage!;
+      final int last = news.lastPage!;
+      bool reachedMax = current >= last ? true : false;
+      return emit(state.copyWith(
+        news: news.data,
+        status: Status.success,
+        hasReachedMax: reachedMax,
+      ));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
     }
   }
 }

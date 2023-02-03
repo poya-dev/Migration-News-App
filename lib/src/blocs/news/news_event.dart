@@ -13,3 +13,12 @@ class NewsFetched extends NewsEvent {
   @override
   List<Object> get props => [accessToken];
 }
+
+class NewsRefreshed extends NewsEvent {
+  NewsRefreshed(this.accessToken);
+
+  final String accessToken;
+
+  @override
+  List<Object> get props => [accessToken];
+}
