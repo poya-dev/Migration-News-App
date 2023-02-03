@@ -10,13 +10,13 @@ class NewsItem extends StatelessWidget {
     required this.data,
     this.width = 300,
     this.onTap,
-    this.onFavoriteTap,
+    this.onBookmarkTap,
   }) : super(key: key);
 
   final News data;
   final double width;
   final GestureTapCallback? onTap;
-  final GestureTapCallback? onFavoriteTap;
+  final GestureTapCallback? onBookmarkTap;
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +69,18 @@ class NewsItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.bookmark_outline,
-                          color: Colors.black38,
-                          size: 28,
-                        ),
+                        onPressed: onBookmarkTap,
+                        icon: data.isBookmark
+                            ? const Icon(
+                                Icons.bookmark,
+                                color: Colors.black38,
+                                size: 28,
+                              )
+                            : const Icon(
+                                Icons.bookmark_outline,
+                                color: Colors.black38,
+                                size: 28,
+                              ),
                       ),
                       const SizedBox(
                         width: 18,
