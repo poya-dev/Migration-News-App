@@ -1,18 +1,20 @@
 import './category.dart';
 
 class News {
-  final String id;
-  final String title;
-  final String imageUrl;
-  final int viewCount;
-  final Category category;
-  // final DateTime createdAt;
+  String id;
+  String title;
+  String imageUrl;
+  int viewCount;
+  bool isBookmark;
+  Category category;
+  // DateTime createdAt;
 
   News({
     required this.id,
     required this.title,
     required this.imageUrl,
     required this.viewCount,
+    required this.isBookmark,
     required this.category,
     // required this.createdAt,
   });
@@ -23,6 +25,7 @@ class News {
       title: json['title'],
       imageUrl: json['imageUrl'],
       viewCount: json['view_count'],
+      isBookmark: json['isBookmark'],
       category: Category.fromJson(json['category']),
       // createdAt: json['created_at'],
     );
