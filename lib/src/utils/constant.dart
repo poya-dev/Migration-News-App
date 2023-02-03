@@ -5,4 +5,5 @@ class ApiEndpoints {
   static String facebookSinIn = '$baseUrl/auth/facebook';
   static String category = '$baseUrl/client/news-category';
   static String news = '$baseUrl/client/news';
+  static String bookmark = '$baseUrl/client/bookmark';
 }
