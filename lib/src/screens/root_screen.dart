@@ -1,19 +1,21 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_state.dart';
-import 'package:news_app/src/blocs/bookmark/bookmark_bloc.dart';
-import 'package:news_app/src/blocs/bookmark/bookmark_event.dart';
-import 'package:news_app/src/blocs/news/news_event.dart';
+import 'package:badges/badges.dart' as badges;
 
+import '../blocs/auth/auth_bloc.dart';
+import '../blocs/auth/auth_state.dart';
+import '../blocs/bookmark/bookmark_bloc.dart';
+import '../blocs/bookmark/bookmark_event.dart';
+import '../blocs/consulting/consulting_bloc.dart';
+import '../blocs/consulting/consulting_event.dart';
+import '../blocs/news/news_event.dart';
 import '../blocs/news/news_bloc.dart';
+import '../blocs/badge/badge_bloc.dart';
 import '../theme/color.dart';
 import './home_screen.dart';
 import './bookmark_screen.dart';
 import './consulting_screen.dart';
-import '../blocs/badge/badge_bloc.dart';
-import 'sign_up_screen.dart';
+import './sign_up_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -87,6 +89,12 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       setState(() {
         _shouldHomeRefresh = true;
       });
+    }
+
+    if (index == 2) {
+      context
+          .read<ConsultingBloc>()
+          .add(ConsultingResponseFetched(_accessToken));
     }
 
     if (index == 1 && _shouldBookmarkRefresh) {
