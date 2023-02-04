@@ -22,5 +22,17 @@ class ConsultingBloc extends Bloc<ConsultingEvent, ConsultingState> {
         }
       },
     );
+    on<ConsultingResponseFetched>((event, emit) async {
+      emit(ConsultingResponseLoading());
+      await Future.delayed(const Duration(seconds: 3));
+      try {
+        final accessToken = event.accessToken;
+        final consultingResponse =
+            await consultingRepository.getConsultingResponse(accessToken);
+        emit(ConsultingResponseSuccess(consultingResponse: consultingResponse));
+      } catch (e) {
+        emit(ConsultingResponseFailure(error: e.toString()));
+      }
+    });
   }
 }
