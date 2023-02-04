@@ -1,11 +1,19 @@
+import 'package:intl/intl.dart';
+
 class ConsultingResponse {
   ConsultingResponse({
-    required this.id,
     required this.responseMessage,
-    required this.dateTime,
+    required this.createdAt,
   });
 
-  final String id;
   final String responseMessage;
-  final DateTime dateTime;
+  final DateTime createdAt;
+
+  factory ConsultingResponse.fromJson(Map<String, dynamic> json) =>
+      ConsultingResponse(
+        responseMessage: json['message'],
+        createdAt: DateFormat('yyyy-MM-ddTHH:mm:ssZ')
+            .parse(json['createdAt'])
+            .toLocal(),
+      );
 }
