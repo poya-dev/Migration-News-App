@@ -15,7 +15,12 @@ class NewsRepository {
     return await ApiService.getNews(accessToken, page);
   }
 
-  Future<void> toggleBookmark(String accessToken, String newsId, bool add) async {
+  Future<void> toggleBookmark(
+      String accessToken, String newsId, bool add) async {
     return await ApiService.toggleBookmark(accessToken, newsId, add);
+  }
+
+  Future<Response<List<News>>> getBookmarks(String accessToken) async {
+    return await ApiService.getBookmarks(accessToken);
   }
 }
