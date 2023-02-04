@@ -6,12 +6,14 @@ class CustomFormField extends StatelessWidget {
     required this.hintText,
     required this.icon,
     this.keyboardType,
+    required this.onSaved,
     this.validator,
   }) : super(key: key);
 
   final String hintText;
   final IconData icon;
   final TextInputType? keyboardType;
+  final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
 
   @override
@@ -19,6 +21,7 @@ class CustomFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+        onSaved: onSaved,
         keyboardType: keyboardType,
         validator: validator,
         decoration: InputDecoration(
