@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../models/consulting_request.dart';
 import '../utils/constant.dart';
 import '../models/user.dart';
 import '../models/category.dart';
@@ -122,6 +123,24 @@ class ApiService {
         return Response(data: bookmarks);
       }
       throw Exception('Failed to get user bookmarks');
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
+  static Future<void> consultingRequest(
+    String token,
+    ConsultingRequest data,
+  ) async {
+    try {
+      final response = await client.post(
+        Uri.parse(ApiEndpoints.consulting),
+        headers: {'Authorization': 'Bearer $token'},
+        body: data.toJson(),
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to send the request');
+      }
     } catch (error) {
       throw Exception(error.toString());
     }
