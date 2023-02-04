@@ -106,4 +106,24 @@ class ApiService {
       throw Exception(error.toString());
     }
   }
+
+  static Future<Response<List<News>>> getBookmarks(String token) async {
+    try {
+      final response = await client.get(
+        Uri.parse(ApiEndpoints.bookmark),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final body = json.decode(response.body);
+      if (response.statusCode == 200) {
+        List<News> bookmarks =
+            body['data']['bookmarkNews'].map<News>((bookmarkItem) {
+          return News.fromJson(bookmarkItem);
+        }).toList();
+        return Response(data: bookmarks);
+      }
+      throw Exception('Failed to get user bookmarks');
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
 }
