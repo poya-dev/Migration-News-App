@@ -1,11 +1,19 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/blocs/auth/auth_bloc.dart';
+import 'package:news_app/src/blocs/auth/auth_state.dart';
+import 'package:news_app/src/blocs/bookmark/bookmark_bloc.dart';
+import 'package:news_app/src/blocs/bookmark/bookmark_event.dart';
+import 'package:news_app/src/blocs/news/news_event.dart';
 
+import '../blocs/news/news_bloc.dart';
 import '../theme/color.dart';
 import './home_screen.dart';
 import './bookmark_screen.dart';
 import './consulting_screen.dart';
 import '../blocs/badge/badge_bloc.dart';
+import 'sign_up_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -18,6 +26,10 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _activeTabIndex = 0;
   int _newsBadgeCount = 0;
   int _consultingBadgeCount = 0;
+  bool _shouldHomeRefresh = true;
+  bool _shouldBookmarkRefresh = true;
+  // bool _shouldConsultingRefresh = true;
+  String _accessToken = '';
 
   final List _pages = [
     {"page": const HomeScreen()},
@@ -63,9 +75,30 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     return FadeTransition(child: page, opacity: _animation);
   }
 
-  void onPageChanged(int index) {
+  onPageChanged(BuildContext context, int index) {
     if (index == _activeTabIndex) return;
+
+    if (index == 0 && _shouldHomeRefresh) {
+      context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+    }
+
+    if (index == 0 && _newsBadgeCount > 0) {
+      context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+      setState(() {
+        _shouldHomeRefresh = true;
+      });
+    }
+
+    if (index == 1 && _shouldBookmarkRefresh) {
+      context.read<BookmarkBloc>().add(BookmarkFetched(_accessToken));
+      setState(() {
+        _shouldHomeRefresh = false;
+        _shouldBookmarkRefresh = false;
+      });
+    }
+
     _controller.reset();
+
     setState(() {
       _activeTabIndex = index;
     });
@@ -81,19 +114,36 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
           topRight: Radius.circular(8),
           topLeft: Radius.circular(8),
         ),
-        child: buildBottomNavBar(),
+        child: buildBottomNavBar(context),
       ),
-      body: buildBottomBarPage(),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, authState) {
+          if (authState is UnAuthenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignUpScreen(),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is Authenticated) {
+            _accessToken = state.user.accessToken;
+          }
+          return buildBottomBarPage();
+        },
+      ),
     );
   }
 
-  Widget buildBottomNavBar() {
+  Widget buildBottomNavBar(BuildContext context) {
     return BottomNavigationBar(
       elevation: 1,
       selectedFontSize: 14,
       currentIndex: _activeTabIndex,
       iconSize: 28,
-      onTap: onPageChanged,
+      onTap: (index) => onPageChanged(context, index),
       selectedIconTheme: const IconThemeData(color: Colors.lightBlue),
       items: [
         BottomNavigationBarItem(
