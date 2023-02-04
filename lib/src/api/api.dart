@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/consulting_request.dart';
+import '../models/consulting.dart';
 import '../utils/constant.dart';
 import '../models/user.dart';
 import '../models/category.dart';
@@ -141,6 +142,28 @@ class ApiService {
       if (response.statusCode != 200) {
         throw Exception('Failed to send the request');
       }
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
+  static Future<Response<List<ConsultingResponse>>> getConsultingResponse(
+    String token,
+  ) async {
+    try {
+      final response = await client.get(
+        Uri.parse(ApiEndpoints.consulting),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final body = json.decode(response.body);
+      if (response.statusCode == 200) {
+        List<ConsultingResponse> consultingResponse =
+            body['data'].map<ConsultingResponse>((responseItem) {
+          return ConsultingResponse.fromJson(responseItem['response']);
+        }).toList();
+        return Response(data: consultingResponse);
+      }
+      throw Exception('Failed to get consulting response');
     } catch (error) {
       throw Exception(error.toString());
     }
