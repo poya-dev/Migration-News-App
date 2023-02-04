@@ -25,7 +25,7 @@ class News {
       title: json['title'],
       imageUrl: json['imageUrl'],
       viewCount: json['view_count'],
-      isBookmark: json['isBookmark'],
+      isBookmark: json['isBookmark'] ?? true,
       category: Category.fromJson(json['category']),
       // createdAt: json['created_at'],
     );
