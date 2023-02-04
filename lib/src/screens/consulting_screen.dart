@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/consulting_response_message.dart';
 import '../widgets/custom_app_bar.dart';
-import './consulting_from_screen.dart';
+import './consulting_form_screen.dart';
 import '../utils/data.dart';
 
 class ConsultingScreen extends StatelessWidget {
