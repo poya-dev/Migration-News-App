@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../models/consulting.dart';
+import '../../api/response.dart';
 
 class ConsultingState extends Equatable {
   @override
@@ -12,7 +13,7 @@ class ConsultingResponseLoading extends ConsultingState {}
 class ConsultingResponseSuccess extends ConsultingState {
   ConsultingResponseSuccess({required this.consultingResponse});
 
-  final List<ConsultingResponse> consultingResponse;
+  final Response<List<ConsultingResponse>> consultingResponse;
   @override
   List<Object> get props => [consultingResponse];
 }
