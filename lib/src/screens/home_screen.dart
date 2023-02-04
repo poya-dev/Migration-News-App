@@ -151,56 +151,82 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   Expanded(
-                    child: BlocBuilder<NewsBloc, NewsState>(
-                      builder: (context, state) {
-                        if (state.status == Status.initial) {
-                          return const Loader();
-                        }
-                        if (state.status == Status.failure) {
-                          return Container(
-                            padding: const EdgeInsets.all(6),
-                            child: const Center(
-                              child: Text('Failed to load News'),
-                            ),
-                          );
-                        }
-                        if (state.status == Status.success) {
-                          final news = state.news;
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            itemCount: state.hasReachedMax
-                                ? state.news.length
-                                : state.news.length + 1,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return index >= state.news.length
-                                  ? const Loader()
-                                  : NewsItem(
-                                      data: news[index],
-                                      onBookmarkTap: () {
-                                        context.read<NewsBloc>().add(
-                                              NewsBookmarked(
-                                                _accessToken,
-                                                news[index].id,
+                    child: Stack(
+                      children: [
+                        BlocBuilder<NewsBloc, NewsState>(
+                          builder: (context, state) {
+                            if (state.status == Status.initial) {
+                              return const Loader();
+                            }
+                            if (state.status == Status.failure) {
+                              return Container(
+                                padding: const EdgeInsets.all(6),
+                                child: const Center(
+                                  child: Text('Failed to load News'),
+                                ),
+                              );
+                            }
+                            if (state.status == Status.success) {
+                              final news = state.news;
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                controller: _scrollController,
+                                itemCount: state.hasReachedMax
+                                    ? state.news.length
+                                    : state.news.length + 1,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return index >= state.news.length
+                                      ? const Loader()
+                                      : NewsItem(
+                                          data: news[index],
+                                          onBookmarkTap: () {
+                                            context.read<NewsBloc>().add(
+                                                  NewsBookmarked(
+                                                    _accessToken,
+                                                    news[index].id,
+                                                  ),
+                                                );
+                                          },
+                                          onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewsDetailsScreen(
+                                                data: news[index],
                                               ),
-                                            );
-                                      },
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              NewsDetailsScreen(
-                                            data: news[index],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                            },
-                          );
-                        }
-                        return const SizedBox();
-                      },
+                                        );
+                                },
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
+                        Visibility(
+                          visible: false,
+                          child: Positioned(
+                            right: 125,
+                            top: 10,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Text(
+                                'New post available',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
