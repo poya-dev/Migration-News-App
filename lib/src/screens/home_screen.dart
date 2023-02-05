@@ -9,6 +9,8 @@ import '../widgets/category_item.dart';
 import '../blocs/auth/auth_state.dart';
 import '../blocs/category/category_bloc.dart';
 import '../blocs/category/category_state.dart';
+import '../blocs/news_detail/news_detail_bloc.dart';
+import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/news/news_event.dart';
 import '../blocs/news/news_state.dart';
@@ -188,15 +190,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 );
                                           },
-                                          onTap: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  NewsDetailsScreen(
-                                                data: news[index],
+                                          onTap: () {
+                                            context
+                                                .read<NewsDetailBloc>()
+                                                .add(NewsDetailFetched(
+                                                  _accessToken,
+                                                  news[index].id,
+                                                ));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NewsDetailsScreen(
+                                                  accessToken: _accessToken,
+                                                  newsId: news[index].id,
+                                                ),
                                               ),
-                                            ),
-                                          ),
+                                            );
+                                          },
                                         );
                                 },
                               );
