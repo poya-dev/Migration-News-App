@@ -9,6 +9,7 @@ import './blocs/category/category_bloc.dart';
 import './blocs/news/news_bloc.dart';
 import './blocs/bookmark/bookmark_bloc.dart';
 import './blocs/consulting/consulting_bloc.dart';
+import './blocs/news_detail/news_detail_bloc.dart';
 import './repositories/user_repository.dart';
 import './repositories/news_repository.dart';
 import './repositories/consulting_repository.dart';
@@ -47,6 +48,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ConsultingBloc(
             consultingRepository: ConsultingRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => NewsDetailBloc(
+            newsRepository: NewsRepository(),
           ),
         ),
       ],
