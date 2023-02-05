@@ -142,8 +142,8 @@ class ApiService {
       );
       final body = json.decode(response.body);
       if (response.statusCode == 200) {
-        List<News> bookmarks = body['data']['news'].map<News>((bookmarkItem) {
-          return News.fromJson(bookmarkItem, true);
+        List<News> bookmarks = body['data'].map<News>((bookmarkItem) {
+          return News.fromJson(bookmarkItem['news']);
         }).toList();
         return Response(data: bookmarks);
       }
