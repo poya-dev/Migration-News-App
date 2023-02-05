@@ -119,15 +119,10 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                       }
                       if (state is ConsultingResponseSuccess) {
                         final response = state.consultingResponse.data;
-                        if (response!.isEmpty) {
-                          return const Center(
-                            child: Text('You have not filled any form yet'),
-                          );
-                        }
                         return ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
-                          itemCount: response.length,
+                          itemCount: response!.length,
                           itemBuilder: (context, index) {
                             return ConsultingResponseMessage(
                               timeAgo: convertToAgo(
