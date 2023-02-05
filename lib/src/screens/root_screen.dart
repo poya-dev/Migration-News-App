@@ -91,6 +91,10 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       });
     }
 
+    if (index == 1) {
+      context.read<BookmarkBloc>().add(BookmarkFetched(_accessToken));
+    }
+
     if (index == 2) {
       context
           .read<ConsultingBloc>()
