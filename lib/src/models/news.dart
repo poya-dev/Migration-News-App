@@ -7,7 +7,6 @@ class News {
   int viewCount;
   bool isBookmark;
   Category category;
-  // DateTime createdAt;
 
   News({
     required this.id,
@@ -16,18 +15,17 @@ class News {
     required this.viewCount,
     required this.isBookmark,
     required this.category,
-    // required this.createdAt,
   });
 
-  factory News.fromJson(Map<String, dynamic> json) {
+  factory News.fromJson(Map<String, dynamic> json,
+      [bool bookmarkFlag = false]) {
     return News(
       id: json['_id'],
       title: json['title'],
       imageUrl: json['imageUrl'],
       viewCount: json['view_count'],
-      isBookmark: json['isBookmark'] ?? true,
+      isBookmark: bookmarkFlag ? true : json['isBookmark'],
       category: Category.fromJson(json['category']),
-      // createdAt: json['created_at'],
     );
   }
 }
