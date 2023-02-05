@@ -17,14 +17,13 @@ class News {
     required this.category,
   });
 
-  factory News.fromJson(Map<String, dynamic> json,
-      [bool bookmarkFlag = false]) {
+  factory News.fromJson(Map<String, dynamic> json) {
     return News(
       id: json['_id'],
       title: json['title'],
       imageUrl: json['imageUrl'],
       viewCount: json['view_count'],
-      isBookmark: bookmarkFlag ? true : json['isBookmark'],
+      isBookmark: json['isBookmark'] ?? true,
       category: Category.fromJson(json['category']),
     );
   }
