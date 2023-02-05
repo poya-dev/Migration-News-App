@@ -8,6 +8,7 @@ import '../utils/constant.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../models/news.dart';
+import '../models/news_detail.dart';
 import './response.dart';
 
 class ApiService {
@@ -88,19 +89,43 @@ class ApiService {
     }
   }
 
-  static Future<void> toggleBookmark(
+  static Future<Response<NewsDetail>> getNewsDetail(
     String token,
     String newsId,
-    bool add,
   ) async {
     try {
-      final String bookmarkEndpoint = add
-          ? '${ApiEndpoints.bookmark}/add/$newsId'
-          : '${ApiEndpoints.bookmark}/remove/$newsId';
-      final response = await client.put(
-        Uri.parse(bookmarkEndpoint),
+      final response = await client.get(
+        Uri.parse('${ApiEndpoints.news}/id/$newsId'),
         headers: {'Authorization': 'Bearer $token'},
       );
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        final NewsDetail news = NewsDetail.fromJson(body['data'][0]);
+        return Response(data: news);
+      }
+      throw Exception('Failed to get news record');
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
+  static Future<void> addBookmark(String token, String newsId) async {
+    try {
+      final response = await client.post(Uri.parse(ApiEndpoints.bookmark),
+          headers: {'Authorization': 'Bearer $token'}, body: {'news': newsId});
+      if (response.statusCode != 200) {
+        throw Exception('Something went wrong');
+      }
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
+  static Future<void> removeBookmark(String token, String newsId) async {
+    try {
+      final response = await client.delete(
+          Uri.parse('${ApiEndpoints.bookmark}/id/$newsId'),
+          headers: {'Authorization': 'Bearer $token'});
       if (response.statusCode != 200) {
         throw Exception('Something went wrong');
       }
@@ -117,9 +142,8 @@ class ApiService {
       );
       final body = json.decode(response.body);
       if (response.statusCode == 200) {
-        List<News> bookmarks =
-            body['data']['bookmarkNews'].map<News>((bookmarkItem) {
-          return News.fromJson(bookmarkItem);
+        List<News> bookmarks = body['data']['news'].map<News>((bookmarkItem) {
+          return News.fromJson(bookmarkItem, true);
         }).toList();
         return Response(data: bookmarks);
       }
