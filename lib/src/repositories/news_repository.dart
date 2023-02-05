@@ -1,5 +1,6 @@
 import '../models/category.dart';
 import '../models/news.dart';
+import '../models/news_detail.dart';
 import '../api/response.dart';
 import '../api/api.dart';
 
@@ -15,9 +16,19 @@ class NewsRepository {
     return await ApiService.getNews(accessToken, page);
   }
 
-  Future<void> toggleBookmark(
-      String accessToken, String newsId, bool add) async {
-    return await ApiService.toggleBookmark(accessToken, newsId, add);
+  Future<Response<NewsDetail>> getNewsDetail(
+    String accessToken,
+    String newsId,
+  ) async {
+    return await ApiService.getNewsDetail(accessToken, newsId);
+  }
+
+  Future<void> addBookmark(String accessToken, String newsId) async {
+    return await ApiService.addBookmark(accessToken, newsId);
+  }
+
+  Future<void> removeBookmark(String accessToken, String newsId) async {
+    return await ApiService.removeBookmark(accessToken, newsId);
   }
 
   Future<Response<List<News>>> getBookmarks(String accessToken) async {
