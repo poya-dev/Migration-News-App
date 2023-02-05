@@ -13,3 +13,13 @@ class BookmarkFetched extends BookmarkEvent {
   @override
   List<Object> get props => [accessToken];
 }
+
+class BookmarkRemoved extends BookmarkEvent {
+  BookmarkRemoved({required this.accessToken, required this.newsId});
+
+  final String accessToken;
+  final String newsId;
+
+  @override
+  List<Object> get props => [accessToken, newsId];
+}

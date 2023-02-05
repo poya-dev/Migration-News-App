@@ -8,18 +8,37 @@ import './bookmark_state.dart';
 
 class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
   final NewsRepository newsRepository;
-  BookmarkBloc({required this.newsRepository}) : super(BookmarkState()) {
+  BookmarkBloc({required this.newsRepository}) : super(const BookmarkState()) {
     on<BookmarkFetched>(
       (BookmarkFetched event, Emitter<BookmarkState> emit) async {
-        emit(BookmarkLoading());
         try {
           final Response<List<News>> bookmarks =
               await newsRepository.getBookmarks(event.accessToken);
-          emit(BookmarkSuccess(bookmarks: bookmarks.data!));
+          emit(state.copyWith(
+            bookmarks: bookmarks.data,
+            status: BookmarkStatus.success,
+          ));
         } catch (e) {
-          emit(BookmarkFailure(error: e.toString()));
+          emit(state.copyWith(
+            status: BookmarkStatus.failure,
+            error: e.toString(),
+          ));
         }
       },
     );
+    on<BookmarkRemoved>((event, emit) async {
+      try {
+        final accessToken = event.accessToken;
+        final newState = [...state.bookmarks];
+        newState.removeWhere((element) => element.id == event.newsId);
+        emit(state.copyWith(
+          bookmarks: newState,
+          status: BookmarkStatus.success,
+        ));
+        await newsRepository.removeBookmark(accessToken, event.newsId);
+      } catch (e) {
+        emit(state.copyWith(error: e.toString()));
+      }
+    });
   }
 }

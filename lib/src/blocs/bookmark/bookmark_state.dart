@@ -2,24 +2,31 @@ import 'package:equatable/equatable.dart';
 
 import '../../models/news.dart';
 
+enum BookmarkStatus { initial, success, failure }
+
 class BookmarkState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class BookmarkLoading extends BookmarkState {}
-
-class BookmarkSuccess extends BookmarkState {
-  BookmarkSuccess({required this.bookmarks});
+  const BookmarkState({
+    this.bookmarks = const <News>[],
+    this.status = BookmarkStatus.initial,
+    this.error = '',
+  });
 
   final List<News> bookmarks;
-  @override
-  List<Object> get props => [bookmarks];
-}
-
-class BookmarkFailure extends BookmarkState {
-  BookmarkFailure({required this.error});
+  final BookmarkStatus status;
   final String error;
+
+  BookmarkState copyWith({
+    List<News>? bookmarks,
+    BookmarkStatus? status,
+    String? error,
+  }) {
+    return BookmarkState(
+      bookmarks: bookmarks ?? this.bookmarks,
+      status: status ?? this.status,
+      error: error ?? this.error,
+    );
+  }
+
   @override
-  List<Object> get props => [error];
+  List<Object?> get props => [bookmarks, status, error];
 }
