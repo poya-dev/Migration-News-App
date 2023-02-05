@@ -101,11 +101,11 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           status: Status.success,
         ));
       }
-      await newsRepository.toggleBookmark(
-        accessToken,
-        event.newsId,
-        newState.isBookmark,
-      );
+      if (newState.isBookmark) {
+        await newsRepository.addBookmark(accessToken, event.newsId);
+      } else {
+        await newsRepository.removeBookmark(accessToken, event.newsId);
+      }
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }
