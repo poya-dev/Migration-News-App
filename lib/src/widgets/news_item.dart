@@ -8,12 +8,14 @@ class NewsItem extends StatelessWidget {
   const NewsItem({
     Key? key,
     required this.data,
+    this.isBookmark = false,
     this.width = 300,
     this.onTap,
     this.onBookmarkTap,
   }) : super(key: key);
 
   final News data;
+  final bool isBookmark;
   final double width;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onBookmarkTap;
