@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463323672937",
+    "project_id": "migration-app-afghan",
+    "storage_bucket": "migration-app-afghan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463323672937:android:6aab8e796882fcc92a0df8",
+        "android_client_info": {
+          "package_name": "com.example.news_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463323672937-51eckl6qp22qlme7kjannaj9oblgom13.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFfC6jp2ECQHGYWTrUWU4PzKBqeC53mJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463323672937-51eckl6qp22qlme7kjannaj9oblgom13.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
