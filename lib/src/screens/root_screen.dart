@@ -30,7 +30,6 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _consultingBadgeCount = 0;
   bool _shouldHomeRefresh = true;
   bool _shouldBookmarkRefresh = true;
-  // bool _shouldConsultingRefresh = true;
   String _accessToken = '';
 
   final List _pages = [
