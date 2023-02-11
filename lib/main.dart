@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import './src/services/fcm_service.dart';
+import 'src/preferences/preferences.dart';
 import './src/app.dart';
 
 void main() async {
@@ -13,5 +14,6 @@ void main() async {
   await FCMService.onBackgroundMessage();
   await FCMService.onForegroundMessage();
   await FCMService.getDeviceToken();
+  await Preferences.init();
   runApp(const MyApp());
 }
