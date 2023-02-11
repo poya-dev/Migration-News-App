@@ -21,7 +21,7 @@ class ApiService {
       );
       if (response.statusCode == 201) {
         final body = json.decode(response.body);
-        return User.fromJson(body);
+        return User.fromJson(body['user'], body['accessToken']);
       }
       throw Exception('Google authentication failed');
     } catch (error) {
@@ -37,7 +37,7 @@ class ApiService {
       );
       if (response.statusCode == 201) {
         final body = json.decode(response.body);
-        return User.fromJson(body);
+        return User.fromJson(body['user'], body['accessToken']);
       }
       throw Exception('Facebook authentication failed');
     } catch (error) {
