@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/preferences/language_prefs.dart';
 
 import '../../repositories/user_repository.dart';
 import '../../services/auth_service.dart';
@@ -44,5 +45,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+    on<SignOutRequested>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        UserPrefs.removeUser();
+        LanguagePrefs.removeLocale();
+        Future.delayed(Duration(seconds: 1));
+        await AuthService.signOut();
+        emit(UnAuthenticated());
+      } catch (e) {
+        emit(AuthError(error: e.toString()));
+      }
+    });
   }
 }
