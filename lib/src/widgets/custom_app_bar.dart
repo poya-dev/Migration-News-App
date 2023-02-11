@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../screens/setting_screen.dart';
 import '../widgets/icon_box.dart';
 import '../theme/color.dart';
 
@@ -19,6 +20,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             children: [
               IconBox(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingScreen(),
+                    ),
+                  );
+                },
                 child: SvgPicture.asset(
                   'assets/icons/profile.svg',
                   color: darker,
