@@ -13,11 +13,27 @@ class User {
     required this.accessToken,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json['user']['_id'],
-        name: json['user']['name'],
-        email: json['user']['email'],
-        profilePicture: json['user']['userPictureUrl'],
+  factory User.fromJson(Map<String, dynamic> json, String accessToken) => User(
+        id: json['_id'],
+        name: json['name'],
+        email: json['email'],
+        profilePicture: json['userPictureUrl'],
+        accessToken: accessToken,
+      );
+
+  factory User.fromPrefJson(Map<String, dynamic> json) => User(
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        profilePicture: json['profilePicture'],
         accessToken: json['accessToken'],
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "email": email,
+        "profilePicture": profilePicture,
+        'accessToken': accessToken
+      };
 }
