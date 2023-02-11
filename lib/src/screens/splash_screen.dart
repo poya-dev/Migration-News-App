@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/preferences/language_prefs.dart';
-import 'package:news_app/src/screens/sign_up_screen.dart';
 
+import '../preferences/language_prefs.dart';
+import '../screens/sign_up_screen.dart';
 import '../blocs/locale/locale_bloc.dart';
 import '../blocs/locale/locale_event.dart';
 import './language_selection_screen.dart';
