@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/category/category_event.dart';
 import '../screens/language_selection_screen.dart';
+import '../utils/ad_helper.dart';
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/category_item.dart';
@@ -30,6 +32,54 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryIndex = 0;
 
+  late BannerAd _bottomBannerAd;
+
+  bool _isBottomBannerAdLoaded = false;
+
+  final _inlineAdIndex = 3;
+
+  late BannerAd _inlineBannerAd;
+
+  bool _isInlineBannerAdLoaded = false;
+
+  void _createBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBottomBannerAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _bottomBannerAd.load();
+  }
+
+  void _createInlineBannerAd() {
+    _inlineBannerAd = BannerAd(
+      size: AdSize.mediumRectangle,
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isInlineBannerAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _inlineBannerAd.load();
+  }
+
   String _accessToken = '';
 
   final _scrollController = ScrollController();
@@ -39,6 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _createBottomBannerAd();
+    _createInlineBannerAd();
     _scrollController.addListener(_onScroll);
   }
 
@@ -46,6 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
+      persistentFooterButtons: [
+        _isBottomBannerAdLoaded
+            ? Container(
+                height: _bottomBannerAd.size.height.toDouble(),
+                width: _bottomBannerAd.size.width.toDouble(),
+                child: AdWidget(ad: _bottomBannerAd),
+              )
+            : SizedBox()
+      ],
       body: BlocConsumer<AuthBloc, AuthState>(
         listenWhen: (previous, current) => current is UnAuthenticated,
         listener: (context, authState) {
@@ -178,37 +239,54 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : state.news.length + 1,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  return index >= state.news.length
+                                  return index >=
+                                          state.news.length +
+                                              (_isInlineBannerAdLoaded ? 1 : 0)
                                       ? const Loader()
-                                      : NewsItem(
-                                          data: news[index],
-                                          onBookmarkTap: () {
-                                            context.read<NewsBloc>().add(
-                                                  NewsBookmarked(
-                                                    _accessToken,
-                                                    news[index].id,
+                                      : (_isInlineBannerAdLoaded &&
+                                              index == _inlineAdIndex)
+                                          ? Container(
+                                              padding: EdgeInsets.only(
+                                                bottom: 10,
+                                              ),
+                                              width: _inlineBannerAd.size.width
+                                                  .toDouble(),
+                                              height: _inlineBannerAd
+                                                  .size.height
+                                                  .toDouble(),
+                                              child:
+                                                  AdWidget(ad: _inlineBannerAd),
+                                            )
+                                          : NewsItem(
+                                              data: news[
+                                                  _getListViewItemIndex(index)],
+                                              onBookmarkTap: () {
+                                                context.read<NewsBloc>().add(
+                                                      NewsBookmarked(
+                                                        _accessToken,
+                                                        news[index].id,
+                                                      ),
+                                                    );
+                                              },
+                                              onTap: () {
+                                                context
+                                                    .read<NewsDetailBloc>()
+                                                    .add(NewsDetailFetched(
+                                                      _accessToken,
+                                                      news[index].id,
+                                                    ));
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewsDetailsScreen(
+                                                      accessToken: _accessToken,
+                                                      newsId: news[index].id,
+                                                    ),
                                                   ),
                                                 );
-                                          },
-                                          onTap: () {
-                                            context
-                                                .read<NewsDetailBloc>()
-                                                .add(NewsDetailFetched(
-                                                  _accessToken,
-                                                  news[index].id,
-                                                ));
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NewsDetailsScreen(
-                                                  accessToken: _accessToken,
-                                                  newsId: news[index].id,
-                                                ),
-                                              ),
+                                              },
                                             );
-                                          },
-                                        );
                                 },
                               );
                             }
@@ -249,11 +327,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  int _getListViewItemIndex(int index) {
+    if (index >= _inlineAdIndex && _isInlineBannerAdLoaded) {
+      return index - 1;
+    }
+    return index;
+  }
+
   @override
   void dispose() {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _bottomBannerAd.dispose();
+    _inlineBannerAd.dispose();
     super.dispose();
   }
 
