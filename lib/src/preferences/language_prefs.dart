@@ -32,4 +32,8 @@ class LanguagePrefs {
     }
     return null;
   }
+
+  static void removeLocale() {
+    Preferences.preferences!.remove(Preferences.LANGUAGE_CODE);
+  }
 }
