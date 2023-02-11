@@ -1,13 +1,17 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:badges/badges.dart' as badges;
 
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/auth/auth_state.dart';
-import '../blocs/bookmark/bookmark_bloc.dart';
-import '../blocs/bookmark/bookmark_event.dart';
+import '../blocs/news_detail/news_detail_bloc.dart';
+import '../blocs/news_detail/news_detail_event.dart';
+import '../screens/language_selection_screen.dart';
 import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
+import '../blocs/bookmark/bookmark_bloc.dart';
+import '../blocs/bookmark/bookmark_event.dart';
+import '../blocs/auth/auth_bloc.dart';
+import '../blocs/auth/auth_state.dart';
 import '../blocs/news/news_event.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/badge/badge_bloc.dart';
@@ -15,7 +19,6 @@ import '../theme/color.dart';
 import './home_screen.dart';
 import './bookmark_screen.dart';
 import './consulting_screen.dart';
-import './sign_up_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -31,6 +34,37 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   bool _shouldHomeRefresh = true;
   bool _shouldBookmarkRefresh = true;
   String _accessToken = '';
+
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['type'] == 'Consulting') {
+      context
+          .read<ConsultingBloc>()
+          .add(ConsultingResponseFetched(_accessToken));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ConsultingScreen()),
+      );
+
+      if (message.data['type'] == 'newPost') {
+        context
+            .read<NewsDetailBloc>()
+            .add(NewsDetailFetched(_accessToken, message.data['id']));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ConsultingScreen()),
+        );
+      }
+    }
+  }
 
   final List _pages = [
     {"page": const HomeScreen()},
@@ -53,7 +87,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    setupInteractedMessage();
     _badgeBloc.newsBadge.listen(
       (value) => setState(() => _newsBadgeCount = value),
     );
@@ -133,7 +167,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpScreen(),
+                builder: (context) => const LanguageSelectionScreen(),
               ),
             );
           }
