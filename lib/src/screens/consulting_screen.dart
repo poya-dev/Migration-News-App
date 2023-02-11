@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_state.dart';
-import 'package:news_app/src/widgets/loader.dart';
 
 import '../widgets/consulting_response_message.dart';
 import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/consulting/consulting_state.dart';
+import '../screens/language_selection_screen.dart';
 import '../widgets/custom_app_bar.dart';
+import '../blocs/auth/auth_state.dart';
 import './consulting_form_screen.dart';
+import '../blocs/auth/auth_bloc.dart';
 import '../utils/convert_to_ago.dart';
-import 'sign_up_screen.dart';
+import '../widgets/loader.dart';
 
 class ConsultingScreen extends StatefulWidget {
   const ConsultingScreen({super.key});
@@ -35,7 +35,7 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const SignUpScreen(),
+              builder: (context) => const LanguageSelectionScreen(),
             ),
           );
         }

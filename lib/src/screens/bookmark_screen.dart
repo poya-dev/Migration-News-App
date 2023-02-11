@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/widgets/news_item.dart';
 
+import '../screens/language_selection_screen.dart';
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/bookmark/bookmark_event.dart';
@@ -11,8 +11,8 @@ import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
 import '../widgets/custom_app_bar.dart';
 import './news_details_screen.dart';
+import '../widgets/news_item.dart';
 import '../widgets/loader.dart';
-import './sign_up_screen.dart';
 
 class BookmarkScreen extends StatefulWidget {
   const BookmarkScreen({super.key});
@@ -34,7 +34,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpScreen(),
+                builder: (context) => const LanguageSelectionScreen(),
               ),
             );
           }

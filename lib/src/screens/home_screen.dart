@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_bloc.dart';
-import 'package:news_app/src/blocs/category/category_event.dart';
 
+import '../blocs/auth/auth_bloc.dart';
+import '../blocs/category/category_event.dart';
+import '../screens/language_selection_screen.dart';
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/category_item.dart';
@@ -16,7 +17,6 @@ import '../blocs/news/news_event.dart';
 import '../blocs/news/news_state.dart';
 import './news_details_screen.dart';
 import '../widgets/news_item.dart';
-import './sign_up_screen.dart';
 import './search_screen.dart';
 import '../widgets/loader.dart';
 
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpScreen(),
+                builder: (context) => const LanguageSelectionScreen(),
               ),
             );
           }
