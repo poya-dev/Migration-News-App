@@ -23,7 +23,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<LocaleBloc, LocaleState>(
+      body: BlocBuilder<LocaleBloc, AppLocaleState>(
         builder: (context, state) {
           return Container(
             padding: const EdgeInsets.symmetric(
@@ -129,6 +129,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                           ),
                         ),
                         onPressed: () {
+                          if (selectedLanguageIndex == 0)
+                            context.read<LocaleBloc>().add(
+                                const LocaleChanged(lang: Language.persian));
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -160,14 +163,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       context
           .read<LocaleBloc>()
           .add(const LocaleChanged(lang: Language.persian));
-    } else if (index == 1) {
-      context
-          .read<LocaleBloc>()
-          .add(const LocaleChanged(lang: Language.pashto));
     } else {
       context
           .read<LocaleBloc>()
-          .add(const LocaleChanged(lang: Language.english));
+          .add(const LocaleChanged(lang: Language.pashto));
     }
   }
 }
