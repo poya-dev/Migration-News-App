@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/blocs/auth/auth_event.dart';
 
 import './localization/app_localizations_setup.dart';
 import './blocs/locale/locale_bloc.dart';
 import './blocs/locale/locale_state.dart';
+import './blocs/auth/auth_event.dart';
 import './blocs/auth/auth_bloc.dart';
 import './blocs/category/category_bloc.dart';
 import './blocs/news/news_bloc.dart';
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
-      child: BlocBuilder<LocaleBloc, LocaleState>(
+      child: BlocBuilder<LocaleBloc, AppLocaleState>(
         builder: (context, state) {
           return MaterialApp(
             title: 'News App',
