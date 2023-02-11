@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/blocs/auth/auth_event.dart';
 
 import './localization/app_localizations_setup.dart';
 import './blocs/locale/locale_bloc.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthBloc(
             userRepository: UserRepository(),
-          ),
+          )..add(IsUserLoggedIn()),
         ),
         BlocProvider(
           create: (context) => CategoryBloc(
