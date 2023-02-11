@@ -28,4 +28,9 @@ class AuthService {
     }
     throw Exception('Something went wrong with facebook Sign In');
   }
+
+  static Future<void> signOut() async {
+    await FacebookAuth.instance.logOut();
+    await GoogleSignIn().signOut();
+  }
 }
