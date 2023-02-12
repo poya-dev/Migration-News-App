@@ -6,7 +6,6 @@ import './app_localizations.dart';
 
 class AppLocalizationSetup {
   static const Iterable<Locale> supportedLocale = [
-    Locale("en", "US"),
     Locale("fa", "IR"),
     Locale("ps", "AF"),
   ];

@@ -17,6 +17,7 @@ class AppLocalizations {
       AppLocalizationsDelegate();
 
   Map<String, dynamic>? _localizedString;
+
   Future<void> load() async {
     String jsonString =
         await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
@@ -33,5 +34,5 @@ class AppLocalizations {
     return _localizedString![key];
   }
 
-  bool get isEnLocale => locale.languageCode == 'en';
+  bool get isEnLocale => locale.languageCode == 'fa';
 }
