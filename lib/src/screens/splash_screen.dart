@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/preferences/user_prefs.dart';
+import 'package:news_app/src/screens/root_screen.dart';
 
 import '../preferences/language_prefs.dart';
 import '../screens/sign_up_screen.dart';
@@ -19,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     final lang = LanguagePrefs.getLocale();
+    final user = UserPrefs.getUser();
     if (lang != null) {
       switch (lang) {
         case Language.english:
@@ -33,15 +36,15 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }
     Future.delayed(
-      const Duration(milliseconds: 2000),
+      const Duration(milliseconds: 1000),
       () {
         setState(
           () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => lang != null
-                    ? SignUpScreen()
+                builder: (context) => (lang != null && user != null)
+                    ? RootScreen()
                     : const LanguageSelectionScreen(),
               ),
             );
