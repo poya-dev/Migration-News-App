@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../screens/language_selection_screen.dart';
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/bookmark/bookmark_bloc.dart';
 import '../blocs/bookmark/bookmark_event.dart';
+import '../blocs/auth/auth_bloc.dart';
+import '../blocs/auth/auth_state.dart';
 import '../blocs/news/news_event.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/badge/badge_bloc.dart';
-import '../theme/color.dart';
-import './home_screen.dart';
 import './bookmark_screen.dart';
 import './consulting_screen.dart';
+import '../theme/color.dart';
+import './home_screen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -153,7 +156,19 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         ),
         child: buildBottomNavBar(context),
       ),
-      body: buildBottomBarPage(),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is UnAuthenticated) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LanguageSelectionScreen(),
+              ),
+            );
+          }
+        },
+        builder: (context, snapshot) => buildBottomBarPage(),
+      ),
     );
   }
 
