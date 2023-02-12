@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/search/search_bloc.dart';
+import '../blocs/search/search_event.dart';
+import '../blocs/search/search_state.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/news_item.dart';
-import '../utils/data.dart';
+import '../widgets/loader.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key, required this.accessToken});
+  final accessToken;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -17,10 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: ListView(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
@@ -32,32 +37,69 @@ class _SearchScreenState extends State<SearchScreen> {
                     isReadOnly: false,
                     isAutoFocus: true,
                     controller: _searchController,
+                    onChanged: (val) {
+                      if (val!.isNotEmpty) {
+                        context.read<SearchBloc>()
+                          ..add(SearchTermChanged(
+                              text: val.trim(),
+                              accessToken: widget.accessToken));
+                      }
+                    },
+                    onSubmitted: (val) {
+                      if (val!.isNotEmpty) {
+                        context.read<SearchBloc>()
+                          ..add(SearchTermChanged(
+                              text: val.trim(),
+                              accessToken: widget.accessToken));
+                      }
+                    },
                     prefix: const Icon(
                       Icons.search,
                       color: Colors.grey,
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SearchScreen(),
-                        ),
-                      );
-                    },
+                    suffix: GestureDetector(
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: Colors.grey,
+                        size: 22,
+                      ),
+                      onTap: () {
+                        _searchController.clear();
+                        context.read<SearchBloc>()..add(ClearButtonPressed());
+                      },
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: news.length,
-            physics: const ScrollPhysics(),
-            itemBuilder: (context, index) {
-              return NewsItem(
-                data: news[index],
-              );
-            },
+          Expanded(
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is SearchLoadIsEmpty) {
+                  return Text('News not found');
+                }
+                if (state is SearchIsLoading) {
+                  return Loader();
+                }
+                if (state is SearchLoadSuccess) {
+                  if (state.news.length == 0) {
+                    return Text('News not found');
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.news.length,
+                    physics: const ScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return NewsItem(
+                        data: state.news[index],
+                      );
+                    },
+                  );
+                }
+                return SizedBox();
+              },
+            ),
           ),
         ],
       ),

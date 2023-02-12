@@ -159,7 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const SearchScreen(),
+                                    builder: (context) =>
+                                        SearchScreen(accessToken: _accessToken),
                                   ),
                                 );
                               },
@@ -172,7 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (context, newsState) {
                       if (newsState is CategoryLoading) {
-                        return const Loader();
+                        return Container(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(strokeWidth: 1.5),
+                        );
                       }
                       if (newsState is CategoryFailure) {
                         return Container(
