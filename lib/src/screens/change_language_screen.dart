@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/preferences/language_prefs.dart';
 
+import '../preferences/language_prefs.dart';
 import '../blocs/locale/locale_bloc.dart';
 import '../blocs/locale/locale_event.dart';
-import '../widgets/icon_box.dart';
 import '../widgets/language_item.dart';
+import '../widgets/icon_box.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   const ChangeLanguageScreen({super.key});
