@@ -24,9 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final user = UserPrefs.getUser();
     if (lang != null) {
       switch (lang) {
-        case Language.english:
-          context.read<LocaleBloc>()..add(LocaleChanged(lang: lang));
-          break;
         case Language.persian:
           context.read<LocaleBloc>()..add(LocaleChanged(lang: lang));
           break;
