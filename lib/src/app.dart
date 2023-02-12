@@ -8,6 +8,7 @@ import './blocs/auth/auth_event.dart';
 import './blocs/auth/auth_bloc.dart';
 import './blocs/category/category_bloc.dart';
 import './blocs/news/news_bloc.dart';
+import './blocs/search/search_bloc.dart';
 import './blocs/bookmark/bookmark_bloc.dart';
 import './blocs/consulting/consulting_bloc.dart';
 import './blocs/news_detail/news_detail_bloc.dart';
@@ -38,6 +39,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => NewsBloc(
+            newsRepository: NewsRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => SearchBloc(
             newsRepository: NewsRepository(),
           ),
         ),
