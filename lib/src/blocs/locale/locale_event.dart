@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum Language { english, persian, pashto }
+enum Language { persian, pashto }
 
 abstract class LocaleEvent extends Equatable {
   const LocaleEvent();
