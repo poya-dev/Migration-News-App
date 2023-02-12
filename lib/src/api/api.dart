@@ -109,6 +109,26 @@ class ApiService {
     }
   }
 
+  static Future<Response<List<News>>> searchNews(
+      String term, String token) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiEndpoints.news}/search?term=$term'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        final List<News> newsList = body['data']
+            .map<News>((newsItem) => News.fromJson(newsItem))
+            .toList();
+        return Response(data: newsList);
+      }
+      throw Exception('Failed to get news data');
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
   static Future<void> addBookmark(String token, String newsId) async {
     try {
       final response = await client.post(Uri.parse(ApiEndpoints.bookmark),
