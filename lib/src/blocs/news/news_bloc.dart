@@ -67,7 +67,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     Emitter<NewsState> emit,
   ) async {
     try {
-      await Future.delayed(const Duration(seconds: 5));
+      emit(state.copyWith(status: Status.initial));
+      await Future.delayed(const Duration(seconds: 1));
       final Response<List<News>> news = await newsRepository.getNews();
       final int current = news.currentPage!;
       final int last = news.lastPage!;
