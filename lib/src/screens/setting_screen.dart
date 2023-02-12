@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import './change_language_screen.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_event.dart';
 import '../widgets/icon_box.dart';
@@ -54,6 +55,14 @@ class SettingScreen extends StatelessWidget {
               style: ListTileStyle.drawer,
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeLanguageScreen(),
+                  ),
+                );
+              },
               title: Text(
                 'تغییر زبان',
                 style: TextStyle(
