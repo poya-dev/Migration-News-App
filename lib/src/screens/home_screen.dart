@@ -28,16 +28,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryIndex = 0;
-
   late BannerAd _bottomBannerAd;
-
   bool _isBottomBannerAdLoaded = false;
-
   final _inlineAdIndex = 3;
-
   late BannerAd _inlineBannerAd;
-
   bool _isInlineBannerAdLoaded = false;
+  final _scrollController = ScrollController();
+  bool _isVisible = true;
 
   void _createBottomBannerAd() {
     _bottomBannerAd = BannerAd(
@@ -76,10 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     _inlineBannerAd.load();
   }
-
-  final _scrollController = ScrollController();
-
-  bool _isVisible = true;
 
   @override
   void initState() {
@@ -197,100 +190,71 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               Expanded(
-                child: Stack(
-                  children: [
-                    BlocBuilder<NewsBloc, NewsState>(
-                      builder: (context, state) {
-                        if (state.status == Status.initial) {
-                          return const Loader();
-                        }
-                        if (state.status == Status.failure) {
-                          return Container(
-                            padding: const EdgeInsets.all(6),
-                            child: const Center(
-                              child: Text('Failed to load News'),
-                            ),
-                          );
-                        }
-                        if (state.status == Status.success) {
-                          final news = state.news;
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            itemCount: state.hasReachedMax
-                                ? state.news.length
-                                : state.news.length + 1,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return index >=
-                                      state.news.length +
-                                          (_isInlineBannerAdLoaded ? 1 : 0)
-                                  ? const Loader()
-                                  : (_isInlineBannerAdLoaded &&
-                                          index == _inlineAdIndex)
-                                      ? Container(
-                                          padding: EdgeInsets.only(
-                                            bottom: 10,
-                                          ),
-                                          width: _inlineBannerAd.size.width
-                                              .toDouble(),
-                                          height: _inlineBannerAd.size.height
-                                              .toDouble(),
-                                          child: AdWidget(ad: _inlineBannerAd),
-                                        )
-                                      : NewsItem(
-                                          data: news[
-                                              _getListViewItemIndex(index)],
-                                          onBookmarkTap: () {
-                                            context.read<NewsBloc>().add(
-                                                  NewsBookmarked(
-                                                      news[index].id),
-                                                );
-                                          },
-                                          onTap: () {
-                                            context.read<NewsDetailBloc>().add(
-                                                NewsDetailFetched(
-                                                    news[index].id));
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NewsDetailsScreen(
-                                                  newsId: news[index].id,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                            },
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                    Visibility(
-                      visible: false,
-                      child: Positioned(
-                        right: 125,
-                        top: 10,
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            'New post available',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
+                child: BlocBuilder<NewsBloc, NewsState>(
+                  builder: (context, state) {
+                    if (state.status == Status.initial) {
+                      return const Loader();
+                    }
+                    if (state.status == Status.failure) {
+                      return Container(
+                        padding: const EdgeInsets.all(6),
+                        child: const Center(
+                          child: Text('Failed to load News'),
                         ),
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                    if (state.status == Status.success) {
+                      final news = state.news;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        controller: _scrollController,
+                        itemCount: state.hasReachedMax
+                            ? state.news.length
+                            : state.news.length + 1,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return index >=
+                                  state.news.length +
+                                      (_isInlineBannerAdLoaded ? 1 : 0)
+                              ? const Loader()
+                              : (_isInlineBannerAdLoaded &&
+                                      index == _inlineAdIndex)
+                                  ? Container(
+                                      padding: EdgeInsets.only(
+                                        bottom: 10,
+                                      ),
+                                      width:
+                                          _inlineBannerAd.size.width.toDouble(),
+                                      height: _inlineBannerAd.size.height
+                                          .toDouble(),
+                                      child: AdWidget(ad: _inlineBannerAd),
+                                    )
+                                  : NewsItem(
+                                      data: news[_getListViewItemIndex(index)],
+                                      onBookmarkTap: () {
+                                        context.read<NewsBloc>().add(
+                                              NewsBookmarked(news[index].id),
+                                            );
+                                      },
+                                      onTap: () {
+                                        context.read<NewsDetailBloc>().add(
+                                            NewsDetailFetched(news[index].id));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                NewsDetailsScreen(
+                                              newsId: news[index].id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                        },
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
               )
             ],

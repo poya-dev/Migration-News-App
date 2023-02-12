@@ -37,11 +37,11 @@ class BadgeBloc {
     _socket.connect();
 
     _socket.on('newPost', (data) {
-      _newsStreamController.sink.add(++_newsBadgeCount);
+      _newsStreamController.sink.add(_newsBadgeCount++);
     });
 
-    _socket.on('consultingMessage', (data) {
-      _consultingStreamController.sink.add(++_consultingBadgeCount);
+    _socket.on('consultingResponse', (data) {
+      _consultingStreamController.sink.add(_consultingBadgeCount++);
     });
   }
 
