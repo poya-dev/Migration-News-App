@@ -32,7 +32,6 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _newsBadgeCount = 0;
   int _consultingBadgeCount = 0;
   bool _shouldHomeRefresh = true;
-  bool _shouldBookmarkRefresh = true;
 
   Future<void> setupInteractedMessage() async {
     RemoteMessage? initialMessage =
@@ -85,14 +84,10 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     setupInteractedMessage();
-    _badgeBloc.newsBadge.listen(
-      (value) => setState(() => _newsBadgeCount = value),
-    );
-
-    _badgeBloc.consultingBadge.listen(
-      (value) => setState(() => _consultingBadgeCount = value),
-    );
-
+    _badgeBloc.newsBadge
+        .listen((value) => setState(() => _newsBadgeCount = value));
+    _badgeBloc.consultingBadge
+        .listen((value) => setState(() => _consultingBadgeCount = value));
     _controller.forward();
   }
 
@@ -108,37 +103,28 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   }
 
   onPageChanged(BuildContext context, int index) {
-    if (index == _activeTabIndex) return;
-
-    if (index == 0 && _shouldHomeRefresh) {
-      context.read<NewsBloc>().add(NewsRefreshed());
+    if (index == 0 && _shouldHomeRefresh && _newsBadgeCount > 0) {
+      context.read<NewsBloc>()..add(NewsRefreshed());
+      _badgeBloc.resetNewsBadgeCount;
     }
-
     if (index == 0 && _newsBadgeCount > 0) {
-      context.read<NewsBloc>().add(NewsRefreshed());
       setState(() {
         _shouldHomeRefresh = true;
       });
     }
-
     if (index == 1) {
-      context.read<BookmarkBloc>().add(BookmarkFetched());
-    }
-
-    if (index == 2) {
-      context.read<ConsultingBloc>().add(ConsultingResponseFetched());
-    }
-
-    if (index == 1 && _shouldBookmarkRefresh) {
       context.read<BookmarkBloc>().add(BookmarkFetched());
       setState(() {
         _shouldHomeRefresh = false;
-        _shouldBookmarkRefresh = false;
       });
     }
-
-    _controller.reset();
-
+    if (index == 2) {
+      context.read<ConsultingBloc>()..add(ConsultingResponseFetched());
+    }
+    if (index == 2 && _consultingBadgeCount > 0) {
+      context.read<ConsultingBloc>()..add(ConsultingResponseFetched());
+      _badgeBloc.resetConsultingBadgeCount;
+    }
     setState(() {
       _activeTabIndex = index;
     });
