@@ -6,21 +6,19 @@ abstract class NewsDetailEvent extends Equatable {
 }
 
 class NewsDetailFetched extends NewsDetailEvent {
-  NewsDetailFetched(this.accessToken, this.newsId);
+  NewsDetailFetched(this.newsId);
 
-  final String accessToken;
   final String newsId;
 
   @override
-  List<Object> get props => [accessToken, newsId];
+  List<Object> get props => [newsId];
 }
 
 class NewsDetailBookmarked extends NewsDetailEvent {
-  NewsDetailBookmarked(this.accessToken, this.newsId);
+  NewsDetailBookmarked(this.newsId);
 
-  final String accessToken;
   final String newsId;
 
   @override
-  List<Object> get props => [accessToken, newsId];
+  List<Object> get props => [newsId];
 }

@@ -13,9 +13,8 @@ class ConsultingBloc extends Bloc<ConsultingEvent, ConsultingState> {
         emit(ConsultingRequestLoading());
         await Future.delayed(const Duration(seconds: 3));
         try {
-          final accessToken = event.accessToken;
           final data = event.data;
-          await consultingRepository.consultingRequest(accessToken, data);
+          await consultingRepository.consultingRequest(data);
           emit(ConsultingRequestSuccess());
         } catch (e) {
           emit(ConsultingRequestFailure());
@@ -26,9 +25,8 @@ class ConsultingBloc extends Bloc<ConsultingEvent, ConsultingState> {
       emit(ConsultingResponseLoading());
       await Future.delayed(const Duration(seconds: 3));
       try {
-        final accessToken = event.accessToken;
         final consultingResponse =
-            await consultingRepository.getConsultingResponse(accessToken);
+            await consultingRepository.getConsultingResponse();
         emit(ConsultingResponseSuccess(consultingResponse: consultingResponse));
       } catch (e) {
         emit(ConsultingResponseFailure(error: e.toString()));

@@ -20,6 +20,14 @@ class UserPrefs {
     return null;
   }
 
+  static String? getToken() {
+    String? user = Preferences.preferences!.getString(Preferences.USER_CODE);
+    if (user != null) {
+      return User.fromPrefJson(jsonDecode(user)).accessToken;
+    }
+    return null;
+  }
+
   static removeUser() {
     Preferences.preferences!.remove(Preferences.USER_CODE);
   }

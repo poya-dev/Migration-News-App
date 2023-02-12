@@ -1,35 +1,19 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_app/src/blocs/news/news_state.dart';
 
 abstract class NewsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class NewsFetched extends NewsEvent {
-  NewsFetched(this.accessToken);
+class NewsFetched extends NewsEvent {}
 
-  final String accessToken;
-
-  @override
-  List<Object> get props => [accessToken];
-}
-
-class NewsRefreshed extends NewsEvent {
-  NewsRefreshed(this.accessToken);
-
-  final String accessToken;
-
-  @override
-  List<Object> get props => [accessToken];
-}
+class NewsRefreshed extends NewsEvent {}
 
 class NewsBookmarked extends NewsEvent {
-  NewsBookmarked(this.accessToken, this.newsId);
+  NewsBookmarked(this.newsId);
 
-  final String accessToken;
   final String newsId;
 
   @override
-  List<Object> get props => [accessToken, newsId];
+  List<Object> get props => [newsId];
 }

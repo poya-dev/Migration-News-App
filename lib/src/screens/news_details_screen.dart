@@ -13,11 +13,9 @@ import '../widgets/loader.dart';
 class NewsDetailsScreen extends StatelessWidget {
   const NewsDetailsScreen({
     Key? key,
-    required this.accessToken,
     required this.newsId,
   }) : super(key: key);
 
-  final String accessToken;
   final String newsId;
 
   @override
@@ -59,7 +57,7 @@ class NewsDetailsScreen extends StatelessWidget {
                 onTap: () {
                   context
                       .read<NewsDetailBloc>()
-                      .add(NewsDetailBookmarked(accessToken, newsId));
+                      .add(NewsDetailBookmarked(newsId));
                 },
                 child: state.status == NewsDetailStatus.success &&
                         state.news!.isBookmark == true

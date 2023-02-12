@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:news_app/src/preferences/user_prefs.dart';
 
 import '../models/consulting_request.dart';
 import '../models/consulting.dart';
@@ -45,8 +46,9 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<Category>>> getCategories(String token) async {
+  static Future<Response<List<Category>>> getCategories() async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.get(
         Uri.parse(ApiEndpoints.category),
         headers: {'Authorization': 'Bearer $token'},
@@ -64,8 +66,10 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<News>>> getNews(String token, int page) async {
+  static Future<Response<List<News>>> getNews(int page) async {
     try {
+      final token = UserPrefs.getToken();
+      print('-----token------> $token');
       final response = await client.get(
         Uri.parse('${ApiEndpoints.news}?page=$page'),
         headers: {'Authorization': 'Bearer $token'},
@@ -89,11 +93,9 @@ class ApiService {
     }
   }
 
-  static Future<Response<NewsDetail>> getNewsDetail(
-    String token,
-    String newsId,
-  ) async {
+  static Future<Response<NewsDetail>> getNewsDetail(String newsId) async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.get(
         Uri.parse('${ApiEndpoints.news}/id/$newsId'),
         headers: {'Authorization': 'Bearer $token'},
@@ -109,9 +111,9 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<News>>> searchNews(
-      String term, String token) async {
+  static Future<Response<List<News>>> searchNews(String term) async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.get(
         Uri.parse('${ApiEndpoints.news}/search?term=$term'),
         headers: {'Authorization': 'Bearer $token'},
@@ -129,8 +131,9 @@ class ApiService {
     }
   }
 
-  static Future<void> addBookmark(String token, String newsId) async {
+  static Future<void> addBookmark(String newsId) async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.post(Uri.parse(ApiEndpoints.bookmark),
           headers: {'Authorization': 'Bearer $token'}, body: {'news': newsId});
       if (response.statusCode != 200) {
@@ -141,8 +144,9 @@ class ApiService {
     }
   }
 
-  static Future<void> removeBookmark(String token, String newsId) async {
+  static Future<void> removeBookmark(String newsId) async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.delete(
           Uri.parse('${ApiEndpoints.bookmark}/id/$newsId'),
           headers: {'Authorization': 'Bearer $token'});
@@ -154,8 +158,9 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<News>>> getBookmarks(String token) async {
+  static Future<Response<List<News>>> getBookmarks() async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.get(
         Uri.parse(ApiEndpoints.bookmark),
         headers: {'Authorization': 'Bearer $token'},
@@ -173,11 +178,9 @@ class ApiService {
     }
   }
 
-  static Future<void> consultingRequest(
-    String token,
-    ConsultingRequest data,
-  ) async {
+  static Future<void> consultingRequest(ConsultingRequest data) async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.post(
         Uri.parse(ApiEndpoints.consulting),
         headers: {'Authorization': 'Bearer $token'},
@@ -191,10 +194,10 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<ConsultingResponse>>> getConsultingResponse(
-    String token,
-  ) async {
+  static Future<Response<List<ConsultingResponse>>>
+      getConsultingResponse() async {
     try {
+      final token = UserPrefs.getToken();
       final response = await client.get(
         Uri.parse(ApiEndpoints.consulting),
         headers: {'Authorization': 'Bearer $token'},

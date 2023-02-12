@@ -14,9 +14,8 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
         emit(state.copyWith(status: NewsDetailStatus.initial));
         await Future.delayed(const Duration(seconds: 3));
         try {
-          final String token = event.accessToken;
           final String newsId = event.newsId;
-          final response = await newsRepository.getNewsDetail(token, newsId);
+          final response = await newsRepository.getNewsDetail(newsId);
           emit(state.copyWith(
             news: response.data,
             status: NewsDetailStatus.success,
@@ -44,9 +43,9 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
           status: NewsDetailStatus.success,
         ));
         if (newState.isBookmark) {
-          await newsRepository.addBookmark(event.accessToken, event.newsId);
+          await newsRepository.addBookmark(event.newsId);
         } else {
-          await newsRepository.removeBookmark(event.accessToken, event.newsId);
+          await newsRepository.removeBookmark(event.newsId);
         }
       } catch (e) {
         emit(state.copyWith(error: e.toString()));

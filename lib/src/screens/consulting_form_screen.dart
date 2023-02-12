@@ -6,7 +6,6 @@ import 'package:news_app/src/blocs/auth/auth_state.dart';
 import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/consulting/consulting_state.dart';
-import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_form_field.dart';
 import '../models/consulting_request.dart';
 import '../widgets/icon_box.dart';
@@ -20,7 +19,7 @@ class ConsultingFormScreen extends StatefulWidget {
 
 class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  String _accessToken = '';
+
   String _name = '';
   String _address = '';
   String _phone = '';
@@ -64,12 +63,8 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
           ],
         ),
       ),
-      body: BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-        if (authState is Authenticated) {
-          _accessToken = authState.user.accessToken;
-        }
-        return BlocConsumer<ConsultingBloc, ConsultingState>(
-            listener: (context, state) {
+      body: BlocConsumer<ConsultingBloc, ConsultingState>(
+        listener: (context, state) {
           if (state is ConsultingRequestFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -84,7 +79,8 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
               ),
             );
           }
-        }, builder: (context, state) {
+        },
+        builder: (context, state) {
           return Container(
             padding: const EdgeInsets.only(top: 12, left: 18, right: 18),
             child: SingleChildScrollView(
@@ -152,8 +148,9 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                                     address: _address,
                                     phone: _phone,
                                   );
-                                  context.read<ConsultingBloc>().add(
-                                      ConsultingRequested(_accessToken, data));
+                                  context
+                                      .read<ConsultingBloc>()
+                                      .add(ConsultingRequested(data));
                                   await Future.delayed(
                                       const Duration(seconds: 1));
                                   if (state is ConsultingRequestSuccess) {
@@ -180,8 +177,8 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
               ),
             ),
           );
-        });
-      }),
+        },
+      ),
     );
   }
 }

@@ -12,8 +12,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         emit(CategoryLoading());
         await Future.delayed(const Duration(seconds: 3));
         try {
-          final String token = event.accessToken;
-          final response = await newsRepository.getCategories(token);
+          final response = await newsRepository.getCategories();
           emit(CategorySuccess(categories: response.data!));
         } catch (error) {
           emit(CategoryFailure(error: error.toString()));
@@ -23,8 +22,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<CategoryRefreshed>((event, emit) async {
       await Future.delayed(const Duration(seconds: 3));
       try {
-        final String token = event.accessToken;
-        final response = await newsRepository.getCategories(token);
+        final response = await newsRepository.getCategories();
         emit(CategorySuccess(categories: response.data!));
       } catch (error) {
         emit(CategoryFailure(error: error.toString()));

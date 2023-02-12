@@ -21,9 +21,8 @@ class SignUpScreen extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            final accessToken = state.user.accessToken;
-            context.read<CategoryBloc>().add(CategoryFetched(accessToken));
-            context.read<NewsBloc>().add(NewsFetched(accessToken));
+            context.read<CategoryBloc>().add(CategoryFetched());
+            context.read<NewsBloc>().add(NewsFetched());
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

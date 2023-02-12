@@ -5,13 +5,10 @@ import 'package:badges/badges.dart' as badges;
 
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
-import '../screens/language_selection_screen.dart';
 import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/bookmark/bookmark_bloc.dart';
 import '../blocs/bookmark/bookmark_event.dart';
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/auth/auth_state.dart';
 import '../blocs/news/news_event.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/badge/badge_bloc.dart';
@@ -33,7 +30,6 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   int _consultingBadgeCount = 0;
   bool _shouldHomeRefresh = true;
   bool _shouldBookmarkRefresh = true;
-  String _accessToken = '';
 
   Future<void> setupInteractedMessage() async {
     RemoteMessage? initialMessage =
@@ -46,9 +42,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   void _handleMessage(RemoteMessage message) {
     if (message.data['type'] == 'Consulting') {
-      context
-          .read<ConsultingBloc>()
-          .add(ConsultingResponseFetched(_accessToken));
+      context.read<ConsultingBloc>().add(ConsultingResponseFetched());
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ConsultingScreen()),
@@ -57,7 +51,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       if (message.data['type'] == 'newPost') {
         context
             .read<NewsDetailBloc>()
-            .add(NewsDetailFetched(_accessToken, message.data['id']));
+            .add(NewsDetailFetched(message.data['id']));
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ConsultingScreen()),
@@ -114,28 +108,26 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
     if (index == _activeTabIndex) return;
 
     if (index == 0 && _shouldHomeRefresh) {
-      context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+      context.read<NewsBloc>().add(NewsRefreshed());
     }
 
     if (index == 0 && _newsBadgeCount > 0) {
-      context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+      context.read<NewsBloc>().add(NewsRefreshed());
       setState(() {
         _shouldHomeRefresh = true;
       });
     }
 
     if (index == 1) {
-      context.read<BookmarkBloc>().add(BookmarkFetched(_accessToken));
+      context.read<BookmarkBloc>().add(BookmarkFetched());
     }
 
     if (index == 2) {
-      context
-          .read<ConsultingBloc>()
-          .add(ConsultingResponseFetched(_accessToken));
+      context.read<ConsultingBloc>().add(ConsultingResponseFetched());
     }
 
     if (index == 1 && _shouldBookmarkRefresh) {
-      context.read<BookmarkBloc>().add(BookmarkFetched(_accessToken));
+      context.read<BookmarkBloc>().add(BookmarkFetched());
       setState(() {
         _shouldHomeRefresh = false;
         _shouldBookmarkRefresh = false;
@@ -161,24 +153,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         ),
         child: buildBottomNavBar(context),
       ),
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, authState) {
-          if (authState is UnAuthenticated) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LanguageSelectionScreen(),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is Authenticated) {
-            _accessToken = state.user.accessToken;
-          }
-          return buildBottomBarPage();
-        },
-      ),
+      body: buildBottomBarPage(),
     );
   }
 

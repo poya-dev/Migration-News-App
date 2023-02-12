@@ -80,8 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _inlineBannerAd.load();
   }
 
-  String _accessToken = '';
-
   final _scrollController = ScrollController();
 
   bool _isVisible = true;
@@ -120,13 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, authState) {
-          authState is Authenticated
-              ? _accessToken = authState.user.accessToken
-              : '';
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<CategoryBloc>().add(CategoryRefreshed(_accessToken));
-              context.read<NewsBloc>().add(NewsRefreshed(_accessToken));
+              context.read<CategoryBloc>().add(CategoryRefreshed());
+              context.read<NewsBloc>().add(NewsRefreshed());
               return Future.delayed(const Duration(seconds: 3));
             },
             child: NotificationListener<ScrollNotification>(
@@ -159,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        SearchScreen(accessToken: _accessToken),
+                                    builder: (context) => SearchScreen(),
                                   ),
                                 );
                               },
@@ -268,24 +262,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                               onBookmarkTap: () {
                                                 context.read<NewsBloc>().add(
                                                       NewsBookmarked(
-                                                        _accessToken,
-                                                        news[index].id,
-                                                      ),
+                                                          news[index].id),
                                                     );
                                               },
                                               onTap: () {
                                                 context
                                                     .read<NewsDetailBloc>()
                                                     .add(NewsDetailFetched(
-                                                      _accessToken,
-                                                      news[index].id,
-                                                    ));
+                                                        news[index].id));
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         NewsDetailsScreen(
-                                                      accessToken: _accessToken,
                                                       newsId: news[index].id,
                                                     ),
                                                   ),
@@ -350,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<NewsBloc>().add(NewsFetched(_accessToken));
+    if (_isBottom) context.read<NewsBloc>().add(NewsFetched());
   }
 
   bool get _isBottom {

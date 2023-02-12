@@ -10,8 +10,7 @@ import '../widgets/news_item.dart';
 import '../widgets/loader.dart';
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({super.key, required this.accessToken});
-  final accessToken;
+  SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -40,17 +39,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     onChanged: (val) {
                       if (val!.isNotEmpty) {
                         context.read<SearchBloc>()
-                          ..add(SearchTermChanged(
-                              text: val.trim(),
-                              accessToken: widget.accessToken));
+                          ..add(SearchTermChanged(text: val.trim()));
                       }
                     },
                     onSubmitted: (val) {
                       if (val!.isNotEmpty) {
                         context.read<SearchBloc>()
-                          ..add(SearchTermChanged(
-                              text: val.trim(),
-                              accessToken: widget.accessToken));
+                          ..add(SearchTermChanged(text: val.trim()));
                       }
                     },
                     prefix: const Icon(

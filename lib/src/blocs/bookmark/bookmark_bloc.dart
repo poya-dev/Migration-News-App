@@ -13,7 +13,7 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
       (BookmarkFetched event, Emitter<BookmarkState> emit) async {
         try {
           final Response<List<News>> bookmarks =
-              await newsRepository.getBookmarks(event.accessToken);
+              await newsRepository.getBookmarks();
           emit(state.copyWith(
             bookmarks: bookmarks.data,
             status: BookmarkStatus.success,
@@ -28,14 +28,13 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
     );
     on<BookmarkRemoved>((event, emit) async {
       try {
-        final accessToken = event.accessToken;
         final newState = [...state.bookmarks];
         newState.removeWhere((element) => element.id == event.newsId);
         emit(state.copyWith(
           bookmarks: newState,
           status: BookmarkStatus.success,
         ));
-        await newsRepository.removeBookmark(accessToken, event.newsId);
+        await newsRepository.removeBookmark(event.newsId);
       } catch (e) {
         emit(state.copyWith(error: e.toString()));
       }

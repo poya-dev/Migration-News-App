@@ -24,8 +24,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final searchTerm = event.text;
       if (searchTerm.isEmpty) return emit(SearchLoadIsEmpty());
       emit(SearchIsLoading());
-      final results =
-          await newsRepository.searchNews(searchTerm, event.accessToken);
+      final results = await newsRepository.searchNews(searchTerm);
       emit(SearchLoadSuccess(results.data!));
     } catch (error) {
       emit(SearchLoadError(error.toString()));

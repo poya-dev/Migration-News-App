@@ -5,20 +5,6 @@ abstract class CategoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CategoryFetched extends CategoryEvent {
-  CategoryFetched(this.accessToken);
+class CategoryFetched extends CategoryEvent {}
 
-  final String accessToken;
-
-  @override
-  List<Object> get props => [accessToken];
-}
-
-class CategoryRefreshed extends CategoryEvent {
-  CategoryRefreshed(this.accessToken);
-
-  final String accessToken;
-
-  @override
-  List<Object> get props => [accessToken];
-}
+class CategoryRefreshed extends CategoryEvent {}

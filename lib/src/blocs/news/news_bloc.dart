@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -35,11 +34,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     Emitter<NewsState> emit,
   ) async {
     try {
-      final String token = event.accessToken;
       await Future.delayed(const Duration(seconds: 3));
       if (state.hasReachedMax) return;
       if (state.status == Status.initial) {
-        final response = await newsRepository.getNews(token);
+        final response = await newsRepository.getNews();
         final int current = response.currentPage!;
         final int last = response.lastPage!;
         bool reachedMax = current >= last ? true : false;
@@ -50,8 +48,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           hasReachedMax: reachedMax,
         ));
       }
-      final Response<List<News>> news =
-          await newsRepository.getNews(token, page);
+      final Response<List<News>> news = await newsRepository.getNews(page);
       final int current = news.currentPage!;
       final int last = news.lastPage!;
       bool reachedMax = current >= last ? true : false;
@@ -70,9 +67,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     Emitter<NewsState> emit,
   ) async {
     try {
-      final String token = event.accessToken;
       await Future.delayed(const Duration(seconds: 5));
-      final Response<List<News>> news = await newsRepository.getNews(token);
+      final Response<List<News>> news = await newsRepository.getNews();
       final int current = news.currentPage!;
       final int last = news.lastPage!;
       bool reachedMax = current >= last ? true : false;
@@ -109,9 +105,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       ));
 
       if (newsItem.isBookmark) {
-        await newsRepository.addBookmark(event.accessToken, event.newsId);
+        await newsRepository.addBookmark(event.newsId);
       } else {
-        await newsRepository.removeBookmark(event.accessToken, event.newsId);
+        await newsRepository.removeBookmark(event.newsId);
       }
     } catch (e) {
       emit(state.copyWith(error: e.toString()));

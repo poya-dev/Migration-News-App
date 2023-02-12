@@ -7,12 +7,11 @@ abstract class SearchEvent extends Equatable {
 }
 
 class SearchTermChanged extends SearchEvent {
-  const SearchTermChanged({required this.text, required this.accessToken});
+  const SearchTermChanged({required this.text});
   final String text;
-  final String accessToken;
 
   @override
-  List<Object?> get props => [text, accessToken];
+  List<Object?> get props => [text];
 }
 
 class ClearButtonPressed extends SearchEvent {}

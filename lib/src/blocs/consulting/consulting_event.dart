@@ -8,20 +8,12 @@ abstract class ConsultingEvent extends Equatable {
 }
 
 class ConsultingRequested extends ConsultingEvent {
-  ConsultingRequested(this.accessToken, this.data);
+  ConsultingRequested(this.data);
 
-  final String accessToken;
   final ConsultingRequest data;
 
   @override
-  List<Object> get props => [accessToken];
+  List<Object> get props => [data];
 }
 
-class ConsultingResponseFetched extends ConsultingEvent {
-  ConsultingResponseFetched(this.accessToken);
-
-  final String accessToken;
-
-  @override
-  List<Object> get props => [accessToken];
-}
+class ConsultingResponseFetched extends ConsultingEvent {}
