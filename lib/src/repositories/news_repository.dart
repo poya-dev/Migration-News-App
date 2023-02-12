@@ -23,6 +23,11 @@ class NewsRepository {
     return await ApiService.getNewsDetail(accessToken, newsId);
   }
 
+  Future<Response<List<News>>> searchNews(
+      String accessToken, String term) async {
+    return await ApiService.searchNews(accessToken, term);
+  }
+
   Future<void> addBookmark(String accessToken, String newsId) async {
     return await ApiService.addBookmark(accessToken, newsId);
   }
