@@ -23,7 +23,7 @@ class ConsultingBloc extends Bloc<ConsultingEvent, ConsultingState> {
     );
     on<ConsultingResponseFetched>((event, emit) async {
       emit(ConsultingResponseLoading());
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 1));
       try {
         final consultingResponse =
             await consultingRepository.getConsultingResponse();
