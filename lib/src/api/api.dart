@@ -117,8 +117,9 @@ class ApiService {
   static Future<Response<List<News>>> searchNews(String term) async {
     try {
       final token = UserPrefs.getToken();
+      final langCode = LanguagePrefs.getLanguageCode();
       final response = await client.get(
-        Uri.parse('${ApiEndpoints.news}/search?term=$term'),
+        Uri.parse('${ApiEndpoints.news}/search?term=$term&lang=$langCode'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
