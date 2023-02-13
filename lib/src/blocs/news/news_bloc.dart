@@ -27,6 +27,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<NewsFetched>(_onNewsFetched,
         transformer: throttleDroppable(throttleDuration));
     on<ResetNewsRequested>(_onResetNewsRequested);
+    on<NewsReFetched>(_onNewsReFetched);
     on<NewsBookmarked>(_onNewsBookmarked);
   }
 
@@ -56,9 +57,31 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       final int last = news.lastPage!;
       bool reachedMax = current >= last ? true : false;
       emit(state.copyWith(
-          news: List.of(state.news)..addAll(news.data!),
-          status: Status.success,
-          hasReachedMax: reachedMax));
+        news: List.of(state.news)..addAll(news.data!),
+        status: Status.success,
+        hasReachedMax: reachedMax,
+      ));
+      page++;
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
+  Future _onNewsReFetched(
+    NewsReFetched event,
+    Emitter<NewsState> emit,
+  ) async {
+    try {
+      final Response<List<News>> news =
+          await newsRepository.getNews(event.category);
+      final int current = news.currentPage!;
+      final int last = news.lastPage!;
+      bool reachedMax = current >= last ? true : false;
+      emit(state.copyWith(
+        news: news.data,
+        status: Status.success,
+        hasReachedMax: reachedMax,
+      ));
       page++;
     } catch (e) {
       emit(state.copyWith(error: e.toString()));

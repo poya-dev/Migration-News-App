@@ -29,6 +29,7 @@ class NewsDetailsScreen extends StatelessWidget {
         elevation: 0,
         title: BlocBuilder<NewsDetailBloc, NewsDetailState>(
             builder: (context, state) {
+          final newsState = context.select((NewsBloc bloc) => bloc);
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -60,7 +61,9 @@ class NewsDetailsScreen extends StatelessWidget {
                   context
                       .read<NewsDetailBloc>()
                       .add(NewsDetailBookmarked(newsId));
-                  context.read<NewsBloc>().add(NewsReFetched());
+                  context
+                      .read<NewsBloc>()
+                      .add(NewsReFetched(newsState.category));
                 },
                 child: state.status == NewsDetailStatus.success &&
                         state.news!.isBookmark == true

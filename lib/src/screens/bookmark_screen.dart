@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/blocs/news/news_state.dart';
+import 'package:news_app/src/models/category.dart';
 
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
@@ -33,6 +35,7 @@ class BookmarkScreen extends StatelessWidget {
             );
           }
           if (state.status == BookmarkStatus.success) {
+            final newsState = context.select((NewsBloc bloc) => bloc);
             final bookmarks = state.bookmarks;
             return ListView.builder(
               shrinkWrap: true,
@@ -45,7 +48,9 @@ class BookmarkScreen extends StatelessWidget {
                     context.read<BookmarkBloc>().add(
                           BookmarkRemoved(newsId: bookmarks[index].id),
                         );
-                    context.read<NewsBloc>().add(NewsReFetched());
+                    context
+                        .read<NewsBloc>()
+                        .add(NewsReFetched(newsState.category));
                   },
                   onTap: () {
                     context.read<NewsDetailBloc>().add(

@@ -14,6 +14,15 @@ class NewsFetched extends NewsEvent {
   List<Object?> get props => [category];
 }
 
+class NewsReFetched extends NewsEvent {
+  NewsReFetched(this.category);
+
+  final String category;
+
+  @override
+  List<Object?> get props => [category];
+}
+
 class ResetNewsRequested extends NewsEvent {}
 
 class NewsBookmarked extends NewsEvent {
