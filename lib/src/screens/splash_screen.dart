@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/blocs/news/news_bloc.dart';
-import 'package:news_app/src/preferences/user_prefs.dart';
-import 'package:news_app/src/screens/root_screen.dart';
 
+import '../blocs/news/news_bloc.dart';
+import '../preferences/user_prefs.dart';
+import '../screens/root_screen.dart';
 import '../blocs/category/category_bloc.dart';
 import '../blocs/category/category_event.dart';
 import '../blocs/news/news_event.dart';
 import '../preferences/language_prefs.dart';
-import '../screens/sign_up_screen.dart';
 import '../blocs/locale/locale_bloc.dart';
 import '../blocs/locale/locale_event.dart';
 import './language_selection_screen.dart';
@@ -37,8 +36,8 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     }
     if (user != null) {
-      context.read<NewsBloc>().add(NewsFetched());
       context.read<CategoryBloc>().add(CategoryFetched());
+      context.read<NewsBloc>().add(NewsFetched('All'));
     }
     Future.delayed(
       const Duration(milliseconds: 1000),

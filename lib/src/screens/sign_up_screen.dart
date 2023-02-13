@@ -22,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is Authenticated) {
             context.read<CategoryBloc>().add(CategoryFetched());
-            context.read<NewsBloc>().add(NewsFetched());
+            context.read<NewsBloc>().add(NewsFetched('All'));
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
