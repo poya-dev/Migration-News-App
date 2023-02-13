@@ -191,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: BlocBuilder<NewsBloc, NewsState>(
+                  buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state.status == Status.initial) {
                       return const Loader();

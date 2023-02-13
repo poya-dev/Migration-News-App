@@ -6,6 +6,8 @@ import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/bookmark/bookmark_event.dart';
 import '../blocs/bookmark/bookmark_bloc.dart';
 import '../blocs/bookmark/bookmark_state.dart';
+import '../blocs/news/news_bloc.dart';
+import '../blocs/news/news_event.dart';
 import '../widgets/custom_app_bar.dart';
 import './news_details_screen.dart';
 import '../widgets/news_item.dart';
@@ -43,6 +45,7 @@ class BookmarkScreen extends StatelessWidget {
                     context.read<BookmarkBloc>().add(
                           BookmarkRemoved(newsId: bookmarks[index].id),
                         );
+                    context.read<NewsBloc>().add(NewsReFetched());
                   },
                   onTap: () {
                     context.read<NewsDetailBloc>().add(
