@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../preferences/language_prefs.dart';
 import '../blocs/locale/locale_bloc.dart';
@@ -85,9 +86,6 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Container(
-            //   height: 150,
-            // child:
             ListView(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -114,10 +112,33 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             Container(
               height: 42,
               child: ElevatedButton(
-                child: Text('Change'),
+                child: Text('تغییر'),
                 onPressed: () {
-                  changeLanguage(context);
-                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      title: Text('هشدار'),
+                      content: Text('اپلیکیشن دوباره اغاز میگردد'),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: const Text("نخیر"),
+                            ),
+                            TextButton(
+                              onPressed: () => changeLanguage(context),
+                              child: const Text("ادامه"),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
                 },
               ),
             )
@@ -127,7 +148,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
     );
   }
 
-  void changeLanguage(BuildContext context) {
+  void changeLanguage(BuildContext context) async {
     if (selectedLanguageIndex == 0) {
       context
           .read<LocaleBloc>()
@@ -137,5 +158,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
           .read<LocaleBloc>()
           .add(const LocaleChanged(lang: Language.pashto));
     }
+    await Future.delayed(Duration(seconds: 1));
+    Restart.restartApp();
   }
 }
