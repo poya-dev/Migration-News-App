@@ -7,6 +7,8 @@ abstract class NewsEvent extends Equatable {
 
 class NewsFetched extends NewsEvent {}
 
+class NewsReFetched extends NewsEvent {}
+
 class NewsRefreshed extends NewsEvent {}
 
 class NewsBookmarked extends NewsEvent {

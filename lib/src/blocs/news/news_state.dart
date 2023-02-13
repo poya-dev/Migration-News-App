@@ -1,12 +1,8 @@
-import 'dart:async';
-
-import 'package:equatable/equatable.dart';
-
 import '../../models/news.dart';
 
 enum Status { initial, success, failure }
 
-class NewsState extends Equatable {
+class NewsState {
   const NewsState({
     this.news = const <News>[],
     this.status = Status.initial,
@@ -32,7 +28,4 @@ class NewsState extends Equatable {
       error: error ?? this.error,
     );
   }
-
-  @override
-  List<Object?> get props => [news, status, hasReachedMax, error];
 }

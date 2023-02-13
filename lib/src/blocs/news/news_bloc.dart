@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/utils/data.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
@@ -26,6 +27,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<NewsFetched>(_onNewsFetched,
         transformer: throttleDroppable(throttleDuration));
     on<NewsRefreshed>(_onRefreshed);
+    on<NewsReFetched>(_onNewsReFetched);
     on<NewsBookmarked>(_onNewsBookmarked);
   }
 
@@ -34,7 +36,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     Emitter<NewsState> emit,
   ) async {
     try {
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 1));
       if (state.hasReachedMax) return;
       if (state.status == Status.initial) {
         final response = await newsRepository.getNews();
@@ -83,29 +85,45 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     }
   }
 
+  Future _onNewsReFetched(
+    NewsReFetched event,
+    Emitter<NewsState> emit,
+  ) async {
+    try {
+      final Response<List<News>> news = await newsRepository.getNews();
+      final int current = news.currentPage!;
+      final int last = news.lastPage!;
+      bool reachedMax = current >= last ? true : false;
+      return emit(state.copyWith(
+        news: news.data,
+        status: Status.success,
+        hasReachedMax: reachedMax,
+      ));
+    } catch (e) {
+      emit(state.copyWith(error: e.toString()));
+    }
+  }
+
   Future _onNewsBookmarked(
     NewsBookmarked event,
     Emitter<NewsState> emit,
   ) async {
     try {
-      final newState = state.news;
-
-      final newsItem = newState.firstWhere(
-        (element) => element.id == event.newsId,
-      );
-
-      newState.forEach((element) {
-        if (element.id == event.newsId) {
-          element.isBookmark = true;
-        }
-      });
-
+      bool _isBookmark = false;
+      List<News> newState = state.news.map<News>(
+        (element) {
+          if (element.id == event.newsId) {
+            element.isBookmark = !element.isBookmark;
+            _isBookmark = element.isBookmark;
+          }
+          return element;
+        },
+      ).toList();
       emit(state.copyWith(
         news: newState,
         status: Status.success,
       ));
-
-      if (newsItem.isBookmark) {
+      if (_isBookmark) {
         await newsRepository.addBookmark(event.newsId);
       } else {
         await newsRepository.removeBookmark(event.newsId);
