@@ -9,8 +9,8 @@ class NewsRepository {
     return await ApiService.getCategories();
   }
 
-  Future<Response<List<News>>> getNews([int page = 1]) async {
-    return await ApiService.getNews(page);
+  Future<Response<List<News>>> getNews(String category, [int page = 1]) async {
+    return await ApiService.getNews(category, page);
   }
 
   Future<Response<NewsDetail>> getNewsDetail(

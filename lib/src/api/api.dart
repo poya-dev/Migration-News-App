@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:news_app/src/preferences/user_prefs.dart';
 
+import '../preferences/language_prefs.dart';
+import '../preferences/user_prefs.dart';
 import '../models/consulting_request.dart';
 import '../models/consulting.dart';
 import '../utils/constant.dart';
@@ -49,8 +50,9 @@ class ApiService {
   static Future<Response<List<Category>>> getCategories() async {
     try {
       final token = UserPrefs.getToken();
+      final langCode = LanguagePrefs.getLanguageCode();
       final response = await client.get(
-        Uri.parse(ApiEndpoints.category),
+        Uri.parse('${ApiEndpoints.category}?lang=$langCode'),
         headers: {'Authorization': 'Bearer $token'},
       );
       final body = json.decode(response.body);
@@ -66,12 +68,13 @@ class ApiService {
     }
   }
 
-  static Future<Response<List<News>>> getNews(int page) async {
+  static Future<Response<List<News>>> getNews(String category, int page) async {
     try {
       final token = UserPrefs.getToken();
-      print('-----token------> $token');
+      final langCode = LanguagePrefs.getLanguageCode();
       final response = await client.get(
-        Uri.parse('${ApiEndpoints.news}?page=$page'),
+        Uri.parse(
+            '${ApiEndpoints.news}?lang=$langCode&category=$category&page=$page'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (response.statusCode == 200) {
