@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:news_app/src/preferences/user_prefs.dart';
 
 import '../screens/setting_screen.dart';
 import '../widgets/icon_box.dart';
@@ -10,6 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = UserPrefs.getUser();
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
@@ -38,10 +40,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(
                 width: 8,
               ),
-              const Text(
-                'کریم محمدی',
+              Text(
+                user!.name.isNotEmpty ? user.name : '',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.black.withOpacity(0.8),
                   fontSize: 18,
                 ),
               ),

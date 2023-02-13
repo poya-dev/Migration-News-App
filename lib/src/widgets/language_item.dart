@@ -26,16 +26,10 @@ class LanguageItem extends StatelessWidget {
         duration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white12 : Colors.white,
+          color: isSelected
+              ? Colors.white.withOpacity(1)
+              : Colors.white.withOpacity(0),
           borderRadius: BorderRadius.circular(5),
-          boxShadow: [
-            BoxShadow(
-              color: shadowColor.withOpacity(0.07),
-              spreadRadius: .5,
-              blurRadius: .5,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
-          ],
         ),
         child: ListTile(
           leading: SvgPicture.asset(
@@ -49,6 +43,7 @@ class LanguageItem extends StatelessWidget {
             style: const TextStyle(
               color: Colors.black54,
               fontSize: 16,
+              fontFamily: 'BNazann',
               fontWeight: FontWeight.w900,
             ),
           ),

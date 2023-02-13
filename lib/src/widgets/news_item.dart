@@ -48,7 +48,7 @@ class NewsItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
-                vertical: 8,
+                vertical: 12,
               ),
               child: Text(
                 data.title,
@@ -57,8 +57,8 @@ class NewsItem extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.w700,
+                  fontFamily: 'BNazann',
                   fontSize: 18,
-                  letterSpacing: 1,
                 ),
               ),
             ),

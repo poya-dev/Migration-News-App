@@ -43,7 +43,8 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                   softWrap: true,
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontFamily: 'BNazann',
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -67,7 +68,8 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                     'فورم مشاوره تلفونی',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
+                      fontFamily: 'BNazann',
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -78,7 +80,8 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                 const Text(
                   'فورم های که قبلآ پور نموده اید:',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
+                    fontFamily: 'BNazann',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -43,11 +43,12 @@ class CategoryItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 color: isSelected
                     ? Theme.of(context).secondaryHeaderColor
                     : darker,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'BNazann',
               ),
             )
           ],

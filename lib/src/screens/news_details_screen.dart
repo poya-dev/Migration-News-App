@@ -111,7 +111,8 @@ class NewsDetailsScreen extends StatelessWidget {
                         overflow: TextOverflow.visible,
                         softWrap: true,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontFamily: 'BNazann',
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

@@ -72,6 +72,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               child: const Text(
                 'تغییر زبان',
                 style: TextStyle(
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -112,7 +113,14 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             Container(
               height: 42,
               child: ElevatedButton(
-                child: Text('تغییر'),
+                child: Text(
+                  'ادامه',
+                  style: TextStyle(
+                    fontFamily: 'BNazann',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -120,19 +128,42 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      title: Text('هشدار'),
-                      content: Text('اپلیکیشن دوباره اغاز میگردد'),
+                      title: Text(
+                        'هشدار',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'BNazann',
+                        ),
+                      ),
+                      content: Text(
+                        'بعد از تغییر زبان اپلیکیشن دوباره آغاز میگردد',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 18,
+                          fontFamily: 'BNazann',
+                        ),
+                      ),
                       actions: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(),
-                              child: const Text("نخیر"),
+                              child: const Text(
+                                "نخیر",
+                                style: TextStyle(
+                                  fontFamily: 'BNazann',
+                                ),
+                              ),
                             ),
                             TextButton(
                               onPressed: () => changeLanguage(context),
-                              child: const Text("ادامه"),
+                              child: const Text(
+                                "ادامه",
+                                style: TextStyle(
+                                  fontFamily: 'BNazann',
+                                ),
+                              ),
                             ),
                           ],
                         )

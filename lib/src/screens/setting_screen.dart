@@ -40,6 +40,7 @@ class SettingScreen extends StatelessWidget {
               child: const Text(
                 'تنظیمات',
                 style: TextStyle(
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -67,7 +68,7 @@ class SettingScreen extends StatelessWidget {
                 'تغییر زبان',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -82,7 +83,7 @@ class SettingScreen extends StatelessWidget {
                 'در باره اپلیکیشن',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -97,7 +98,7 @@ class SettingScreen extends StatelessWidget {
                 'سیاست های حریم خصوصی',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -112,7 +113,7 @@ class SettingScreen extends StatelessWidget {
                 'شرایط استفاده',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -127,7 +128,7 @@ class SettingScreen extends StatelessWidget {
                 'راجع به اپلیکیشن ما نظر بدهید',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),
@@ -145,7 +146,7 @@ class SettingScreen extends StatelessWidget {
                 'خارج شدن',
                 style: TextStyle(
                   fontSize: 18,
-                  letterSpacing: -0.5,
+                  fontFamily: 'BNazann',
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
                 ),

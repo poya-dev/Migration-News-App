@@ -77,9 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
-            if (notification.metrics.pixels > 0 && _isVisible) {
+            if (notification.metrics.pixels > 10 && _isVisible) {
               setState(() => _isVisible = false);
-            } else if (notification.metrics.pixels <= 0 && !_isVisible) {
+            } else if (notification.metrics.pixels < 10 &&
+                notification.metrics.axis != Axis.horizontal) {
+              setState(() => _isVisible = true);
+            } else if (notification.metrics.axis == AxisDirection.up &&
+                !_isVisible) {
               setState(() => _isVisible = true);
             }
             return false;

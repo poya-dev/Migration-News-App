@@ -56,12 +56,13 @@ class ConsultingResponseMessage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(8),
               child: Text(
                 message,
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+                  color: Colors.black87,
+                  fontFamily: 'BNazann',
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
               ),
