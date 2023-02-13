@@ -104,7 +104,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
 
   onPageChanged(BuildContext context, int index) {
     if (index == 0 && _shouldHomeRefresh && _newsBadgeCount > 0) {
-      context.read<NewsBloc>()..add(NewsRefreshed());
+      context.read<NewsBloc>()..add(ResetNewsRequested());
+      context.read<NewsBloc>()..add(NewsFetched('all'));
       _badgeBloc.resetNewsBadgeCount;
     }
     if (index == 0 && _newsBadgeCount > 0) {
@@ -113,7 +114,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       });
     }
     if (index == 1) {
-      context.read<BookmarkBloc>().add(BookmarkFetched());
+      context.read<BookmarkBloc>()..add(BookmarkFetched());
       setState(() {
         _shouldHomeRefresh = false;
       });
