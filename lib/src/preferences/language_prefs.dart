@@ -33,6 +33,14 @@ class LanguagePrefs {
     return null;
   }
 
+  static String getLanguageCode() {
+    final locale = LanguagePrefs.getLocale();
+    if (locale == Language.pashto) {
+      return 'ps';
+    }
+    return 'fa';
+  }
+
   static void removeLocale() {
     Preferences.preferences!.remove(Preferences.LANGUAGE_CODE);
   }
