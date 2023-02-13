@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/news_detail/news_detail_state.dart';
+import '../blocs/news/news_bloc.dart';
+import '../blocs/news/news_event.dart';
 import '../widgets/custom_image.dart';
 import '../widgets/icon_box.dart';
 import '../widgets/loader.dart';
@@ -58,6 +60,7 @@ class NewsDetailsScreen extends StatelessWidget {
                   context
                       .read<NewsDetailBloc>()
                       .add(NewsDetailBookmarked(newsId));
+                  context.read<NewsBloc>().add(NewsReFetched());
                 },
                 child: state.status == NewsDetailStatus.success &&
                         state.news!.isBookmark == true
