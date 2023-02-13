@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/utils/data.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
@@ -21,13 +20,13 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   int page = 1;
+  String category = 'All';
 
   final NewsRepository newsRepository;
   NewsBloc({required this.newsRepository}) : super(NewsState()) {
     on<NewsFetched>(_onNewsFetched,
         transformer: throttleDroppable(throttleDuration));
-    on<NewsRefreshed>(_onRefreshed);
-    on<NewsReFetched>(_onNewsReFetched);
+    on<ResetNewsRequested>(_onResetNewsRequested);
     on<NewsBookmarked>(_onNewsBookmarked);
   }
 
@@ -37,9 +36,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   ) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
+      category = event.category!;
       if (state.hasReachedMax) return;
       if (state.status == Status.initial) {
-        final response = await newsRepository.getNews();
+        final response = await newsRepository.getNews(event.category!);
         final int current = response.currentPage!;
         final int last = response.lastPage!;
         bool reachedMax = current >= last ? true : false;
@@ -50,7 +50,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           hasReachedMax: reachedMax,
         ));
       }
-      final Response<List<News>> news = await newsRepository.getNews(page);
+      final Response<List<News>> news =
+          await newsRepository.getNews(event.category!, page);
       final int current = news.currentPage!;
       final int last = news.lastPage!;
       bool reachedMax = current >= last ? true : false;
@@ -64,44 +65,16 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     }
   }
 
-  Future _onRefreshed(
-    NewsRefreshed event,
+  Future _onResetNewsRequested(
+    ResetNewsRequested event,
     Emitter<NewsState> emit,
   ) async {
-    try {
-      emit(state.copyWith(status: Status.initial));
-      await Future.delayed(const Duration(seconds: 1));
-      final Response<List<News>> news = await newsRepository.getNews();
-      final int current = news.currentPage!;
-      final int last = news.lastPage!;
-      bool reachedMax = current >= last ? true : false;
-      return emit(state.copyWith(
-        news: news.data,
-        status: Status.success,
-        hasReachedMax: reachedMax,
-      ));
-    } catch (e) {
-      emit(state.copyWith(error: e.toString()));
-    }
-  }
-
-  Future _onNewsReFetched(
-    NewsReFetched event,
-    Emitter<NewsState> emit,
-  ) async {
-    try {
-      final Response<List<News>> news = await newsRepository.getNews();
-      final int current = news.currentPage!;
-      final int last = news.lastPage!;
-      bool reachedMax = current >= last ? true : false;
-      return emit(state.copyWith(
-        news: news.data,
-        status: Status.success,
-        hasReachedMax: reachedMax,
-      ));
-    } catch (e) {
-      emit(state.copyWith(error: e.toString()));
-    }
+    page = 1;
+    return emit(state.copyWith(
+      news: const <News>[],
+      status: Status.initial,
+      hasReachedMax: false,
+    ));
   }
 
   Future _onNewsBookmarked(

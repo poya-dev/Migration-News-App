@@ -2,14 +2,19 @@ import 'package:equatable/equatable.dart';
 
 abstract class NewsEvent extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class NewsFetched extends NewsEvent {}
+class NewsFetched extends NewsEvent {
+  NewsFetched(this.category);
 
-class NewsReFetched extends NewsEvent {}
+  final String? category;
 
-class NewsRefreshed extends NewsEvent {}
+  @override
+  List<Object?> get props => [category];
+}
+
+class ResetNewsRequested extends NewsEvent {}
 
 class NewsBookmarked extends NewsEvent {
   NewsBookmarked(this.newsId);
