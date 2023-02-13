@@ -28,32 +28,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryIndex = 0;
-  late BannerAd _bottomBannerAd;
-  bool _isBottomBannerAdLoaded = false;
   final _inlineAdIndex = 3;
-  late BannerAd _inlineBannerAd;
   bool _isInlineBannerAdLoaded = false;
-  final _scrollController = ScrollController();
   bool _isVisible = true;
+  String _category = '';
 
-  void _createBottomBannerAd() {
-    _bottomBannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (_) {
-          setState(() {
-            _isBottomBannerAdLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _bottomBannerAd.load();
-  }
+  final _scrollController = ScrollController();
+
+  late BannerAd _bottomBannerAd;
+  late BannerAd _inlineBannerAd;
 
   void _createInlineBannerAd() {
     _inlineBannerAd = BannerAd(
@@ -77,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _createBottomBannerAd();
     _createInlineBannerAd();
     _scrollController.addListener(_onScroll);
   }
@@ -86,20 +68,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
-      persistentFooterButtons: [
-        _isBottomBannerAdLoaded
-            ? Container(
-                height: _bottomBannerAd.size.height.toDouble(),
-                width: _bottomBannerAd.size.width.toDouble(),
-                child: AdWidget(ad: _bottomBannerAd),
-              )
-            : SizedBox()
-      ],
       body: RefreshIndicator(
         onRefresh: () async {
+          context.read<NewsBloc>().add(ResetNewsRequested());
           context.read<CategoryBloc>().add(CategoryRefreshed());
-          context.read<NewsBloc>().add(NewsRefreshed());
-          return Future.delayed(const Duration(seconds: 3));
+          context.read<NewsBloc>().add(NewsFetched('All'));
+          return Future.delayed(const Duration(seconds: 2));
         },
         child: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
@@ -176,9 +150,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               data: categoryList[index],
                               isSelected: index == _selectedCategoryIndex,
                               onTap: () {
-                                setState(() {
-                                  _selectedCategoryIndex = index;
-                                });
+                                context.read<NewsBloc>()
+                                  ..add(ResetNewsRequested());
+                                setState(
+                                  () {
+                                    if (index == 0) {
+                                      _category = 'all';
+                                    } else {
+                                      _category = categoryList[index].name;
+                                    }
+                                    _selectedCategoryIndex = index;
+                                  },
+                                );
+                                if (index == 0) {
+                                  context.read<NewsBloc>()
+                                    ..add(NewsFetched('all'));
+                                }
+                                context.read<NewsBloc>()
+                                  ..add(NewsFetched(categoryList[index].name));
                               },
                             ),
                           ),
@@ -206,6 +195,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     if (state.status == Status.success) {
                       final news = state.news;
+                      if (news.isEmpty) {
+                        return Center(
+                          child: Text('News not found'),
+                        );
+                      }
                       return ListView.builder(
                         shrinkWrap: true,
                         controller: _scrollController,
@@ -283,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<NewsBloc>().add(NewsFetched());
+    if (_isBottom) context.read<NewsBloc>().add(NewsFetched(_category));
   }
 
   bool get _isBottom {
