@@ -190,8 +190,6 @@ class SettingScreen extends StatelessWidget {
                     ],
                   ),
                 );
-
-                //
               },
               title: Text(
                 'خارج شدن',
