@@ -11,6 +11,7 @@ import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
 import '../blocs/auth/auth_event.dart';
 import './root_screen.dart';
+import '../utils/translation_util.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -62,13 +63,13 @@ class SignUpScreen extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: FittedBox(
                       child: Text(
+                        getTranslated(context, 'app_instruction'),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        'برای استفاده از خدمات ما باید در اپلیکیشن ما ثبت نام کنید.',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 16,
@@ -81,7 +82,7 @@ class SignUpScreen extends StatelessWidget {
                     height: 18,
                   ),
                   SocialButton(
-                    text: 'ورود با فیسبوک',
+                    text: getTranslated(context, 'facebook_btn_txt'),
                     color: const Color.fromARGB(255, 36, 130, 207),
                     icon: FontAwesomeIcons.facebookF,
                     onTap: () {
@@ -92,7 +93,7 @@ class SignUpScreen extends StatelessWidget {
                     height: 18,
                   ),
                   SocialButton(
-                    text: 'ورود با گوگل',
+                    text: getTranslated(context, 'google_btn_txt'),
                     color:
                         const Color.fromARGB(255, 233, 10, 5).withOpacity(0.7),
                     icon: FontAwesomeIcons.google,
@@ -108,10 +109,10 @@ class SignUpScreen extends StatelessWidget {
                     child: FittedBox(
                       child: Row(
                         children: [
-                          const Text(
+                          Text(
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            'با ورود به سیستم شما با',
+                            getTranslated(context, 'app_privacy_and_policy_1'),
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 14,
@@ -120,10 +121,11 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {},
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.only(left: 4, right: 4),
                               child: Text(
-                                'شرایط و ضوابط',
+                                getTranslated(
+                                    context, 'app_privacy_and_policy_2'),
                                 style: TextStyle(
                                   color: Colors.lightBlue,
                                   fontSize: 14,
@@ -132,10 +134,10 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const Text(
+                          Text(
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            'ما موافقت میکنید.',
+                            getTranslated(context, 'app_privacy_anc_policy_3'),
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 14,

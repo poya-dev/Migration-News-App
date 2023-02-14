@@ -9,6 +9,7 @@ import '../widgets/custom_app_bar.dart';
 import './consulting_form_screen.dart';
 import '../utils/convert_to_ago.dart';
 import '../widgets/loader.dart';
+import '../utils/translation_util.dart';
 
 class ConsultingScreen extends StatefulWidget {
   const ConsultingScreen({super.key});
@@ -18,11 +19,6 @@ class ConsultingScreen extends StatefulWidget {
 }
 
 class _ConsultingScreenState extends State<ConsultingScreen> {
-  String accessToken = '';
-
-  final data =
-      'اگر میخواهید در مورد مهاجرت جایگزین های قانونی تحصیل اشتغال و سایر فرصت های مرتبط بیشتر بدانید لطفآ فورم زیر را پر کنید و از مشاورین ما مشاوره های تلفونی دریافت نمایید.';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +35,7 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  data,
+                  getTranslated(context, 'consulting_info'),
                   softWrap: true,
                   style: const TextStyle(
                     color: Colors.black,
@@ -53,7 +49,7 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                 ),
                 ElevatedButton(
                   style: const ButtonStyle(
-                    padding: MaterialStatePropertyAll(EdgeInsets.all(10)),
+                    padding: MaterialStatePropertyAll(EdgeInsets.all(8)),
                     backgroundColor: MaterialStatePropertyAll(Colors.lightBlue),
                   ),
                   onPressed: () {
@@ -64,11 +60,11 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                       ),
                     );
                   },
-                  child: const Text(
-                    'فورم مشاوره تلفونی',
+                  child: Text(
+                    getTranslated(context, 'consulting_request_btn'),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontFamily: 'BNazann',
                       fontWeight: FontWeight.w700,
                     ),
@@ -77,8 +73,8 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Text(
-                  'فورم های که قبلآ پور نموده اید:',
+                Text(
+                  getTranslated(context, 'already_form_filled'),
                   style: TextStyle(
                     fontSize: 18,
                     fontFamily: 'BNazann',

@@ -8,6 +8,7 @@ import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/news_detail/news_detail_state.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/news/news_event.dart';
+import '../utils/translation_util.dart';
 import '../widgets/custom_image.dart';
 import '../widgets/icon_box.dart';
 import '../widgets/loader.dart';
@@ -49,8 +50,8 @@ class NewsDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Text(
-                'جزییات',
+              Text(
+                getTranslated(context, 'detail'),
                 style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,

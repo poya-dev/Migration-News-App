@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<LocaleBloc, AppLocaleState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'News App',
+            title: 'Migration News App',
             debugShowCheckedModeBanner: false,
             locale: state.locale,
             supportedLocales: AppLocalizationSetup.supportedLocale,

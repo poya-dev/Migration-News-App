@@ -8,6 +8,7 @@ import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/news_item.dart';
 import '../widgets/loader.dart';
+import '../utils/translation_util.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
@@ -32,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
               children: <Widget>[
                 Expanded(
                   child: CustomRoundTextBox(
-                    hint: "جستجو",
+                    hint: getTranslated(context, 'search'),
                     isReadOnly: false,
                     isAutoFocus: true,
                     controller: _searchController,

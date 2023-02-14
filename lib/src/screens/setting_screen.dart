@@ -5,6 +5,7 @@ import './change_language_screen.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_event.dart';
 import '../widgets/icon_box.dart';
+import '../utils/translation_util.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -37,8 +38,8 @@ class SettingScreen extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(right: 100),
-              child: const Text(
-                'تنظیمات',
+              child: Text(
+                getTranslated(context, 'setting'),
                 style: TextStyle(
                   fontFamily: 'BNazann',
                   color: Colors.black54,
@@ -65,7 +66,7 @@ class SettingScreen extends StatelessWidget {
                 );
               },
               title: Text(
-                'تغییر زبان',
+                getTranslated(context, 'change_language'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',
@@ -80,7 +81,7 @@ class SettingScreen extends StatelessWidget {
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
               title: Text(
-                'در باره اپلیکیشن',
+                getTranslated(context, 'about_app'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',
@@ -95,7 +96,7 @@ class SettingScreen extends StatelessWidget {
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
               title: Text(
-                'سیاست های حریم خصوصی',
+                getTranslated(context, 'privacy_policy'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',
@@ -110,7 +111,7 @@ class SettingScreen extends StatelessWidget {
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
               title: Text(
-                'شرایط استفاده',
+                getTranslated(context, 'usage_condition'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',
@@ -125,7 +126,7 @@ class SettingScreen extends StatelessWidget {
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
               title: Text(
-                'راجع به اپلیکیشن ما نظر بدهید',
+                getTranslated(context, 'rate_our_app'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',
@@ -147,14 +148,14 @@ class SettingScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     title: Text(
-                      'هشدار',
+                      getTranslated(context, 'warning'),
                       style: TextStyle(
                         color: Colors.black54,
                         fontFamily: 'BNazann',
                       ),
                     ),
                     content: Text(
-                      'مطمین استید که از اپلیکیشن خارج میشوید؟',
+                      getTranslated(context, 'logout_warning_txt'),
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 18,
@@ -167,8 +168,8 @@ class SettingScreen extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: const Text(
-                              "نخیر",
+                            child: Text(
+                              getTranslated(context, 'cancel_btn'),
                               style: TextStyle(
                                 fontFamily: 'BNazann',
                               ),
@@ -178,8 +179,8 @@ class SettingScreen extends StatelessWidget {
                             onPressed: () => context
                                 .read<AuthBloc>()
                                 .add(SignOutRequested()),
-                            child: const Text(
-                              "بله",
+                            child: Text(
+                              getTranslated(context, 'yes_btn'),
                               style: TextStyle(
                                 fontFamily: 'BNazann',
                               ),
@@ -192,7 +193,7 @@ class SettingScreen extends StatelessWidget {
                 );
               },
               title: Text(
-                'خارج شدن',
+                getTranslated(context, 'logout'),
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'BNazann',

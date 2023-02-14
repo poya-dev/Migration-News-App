@@ -6,6 +6,7 @@ import '../blocs/consulting/consulting_event.dart';
 import '../blocs/consulting/consulting_state.dart';
 import '../widgets/custom_form_field.dart';
 import '../models/consulting_request.dart';
+import '../utils/translation_util.dart';
 import '../widgets/icon_box.dart';
 
 class ConsultingFormScreen extends StatefulWidget {
@@ -50,8 +51,8 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
             ),
             Container(
               margin: EdgeInsets.only(right: 80),
-              child: const Text(
-                'درخواست مشوره',
+              child: Text(
+                getTranslated(context, 'consulting_request'),
                 style: TextStyle(
                   color: Colors.black54,
                   fontWeight: FontWeight.bold,
@@ -65,15 +66,16 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
         listener: (context, state) {
           if (state is ConsultingRequestFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Something went wrong, please try again!'),
+              SnackBar(
+                content: Text(getTranslated(context, 'request_not_sent')),
               ),
             );
           }
           if (state is ConsultingRequestSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Your request has been sent successfully.'),
+              SnackBar(
+                content:
+                    Text(getTranslated(context, 'request_sent_successfully')),
               ),
             );
           }
@@ -88,33 +90,33 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     CustomFormField(
-                      hintText: 'اسم',
+                      hintText: getTranslated(context, 'user_name'),
                       icon: Icons.person,
                       onSaved: (String? value) {
                         _name = value!;
                       },
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'لطفآ اسم تان را وارد نمایید';
+                          return getTranslated(context, 'name_error');
                         }
                         return null;
                       },
                     ),
                     CustomFormField(
-                      hintText: 'آدرس',
+                      hintText: getTranslated(context, 'address'),
                       icon: Icons.location_city,
                       onSaved: (String? value) {
                         _address = value!;
                       },
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'لطفآ ادرس تان را وارد نمایید';
+                          return getTranslated(context, 'address_error');
                         }
                         return null;
                       },
                     ),
                     CustomFormField(
-                      hintText: 'نمبر تماس',
+                      hintText: getTranslated(context, 'phone_number'),
                       icon: Icons.phone,
                       keyboardType: TextInputType.number,
                       onSaved: (String? value) {
@@ -122,10 +124,10 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                       },
                       validator: (val) {
                         if (val!.isEmpty) {
-                          return 'نمبر تماس تان را وارد نمایید';
+                          return getTranslated(context, 'phone_error1');
                         }
                         if (val.length < 10 || val.length > 12) {
-                          return 'نمبر تماس باید 10 الی 12 عدد  باشد';
+                          return getTranslated(context, 'phone_error2');
                         }
                         return null;
                       },
@@ -167,7 +169,7 @@ class _ConsultingFormScreenState extends State<ConsultingFormScreen> {
                                   ),
                                 ),
                               )
-                            : const Text('ارسال'),
+                            : Text(getTranslated(context, 'send_btn')),
                       ),
                     )
                   ],

@@ -15,6 +15,7 @@ import '../blocs/news/news_bloc.dart';
 import '../blocs/news/news_event.dart';
 import '../blocs/news/news_state.dart';
 import './news_details_screen.dart';
+import '../utils/translation_util.dart';
 import '../widgets/news_item.dart';
 import './search_screen.dart';
 import '../widgets/loader.dart';
@@ -99,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Expanded(
                         child: CustomRoundTextBox(
-                          hint: "جستجو",
+                          hint: getTranslated(context, 'search'),
                           isReadOnly: true,
                           prefix: const Icon(
                             Icons.search,

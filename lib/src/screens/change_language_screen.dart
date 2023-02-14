@@ -6,6 +6,7 @@ import '../preferences/language_prefs.dart';
 import '../blocs/locale/locale_bloc.dart';
 import '../blocs/locale/locale_event.dart';
 import '../widgets/language_item.dart';
+import '../utils/translation_util.dart';
 import '../widgets/icon_box.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
@@ -69,8 +70,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
             ),
             Container(
               margin: EdgeInsets.only(right: 100),
-              child: const Text(
-                'تغییر زبان',
+              child: Text(
+                getTranslated(context, 'change_language'),
                 style: TextStyle(
                   fontFamily: 'BNazann',
                   color: Colors.black54,
@@ -114,7 +115,7 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
               height: 42,
               child: ElevatedButton(
                 child: Text(
-                  'ادامه',
+                  getTranslated(context, 'continue_btn'),
                   style: TextStyle(
                     fontFamily: 'BNazann',
                     fontSize: 18,
@@ -129,14 +130,14 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       title: Text(
-                        'هشدار',
+                        getTranslated(context, 'warning'),
                         style: TextStyle(
                           color: Colors.black54,
                           fontFamily: 'BNazann',
                         ),
                       ),
                       content: Text(
-                        'بعد از تغییر زبان اپلیکیشن دوباره آغاز میگردد',
+                        getTranslated(context, 'change_lang_warning_txt'),
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 18,
@@ -149,8 +150,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                           children: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(),
-                              child: const Text(
-                                "نخیر",
+                              child: Text(
+                                getTranslated(context, 'cancel_btn'),
                                 style: TextStyle(
                                   fontFamily: 'BNazann',
                                 ),
@@ -158,8 +159,8 @@ class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
                             ),
                             TextButton(
                               onPressed: () => changeLanguage(context),
-                              child: const Text(
-                                "ادامه",
+                              child: Text(
+                                getTranslated(context, 'continue_btn'),
                                 style: TextStyle(
                                   fontFamily: 'BNazann',
                                 ),

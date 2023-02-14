@@ -19,6 +19,7 @@ import './bookmark_screen.dart';
 import './consulting_screen.dart';
 import '../theme/color.dart';
 import './home_screen.dart';
+import '../utils/translation_util.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -185,18 +186,18 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
               buildBadge(_newsBadgeCount)
             ],
           ),
-          label: 'Home',
-          tooltip: 'Home',
+          label: getTranslated(context, 'home_btn_txt'),
+          tooltip: getTranslated(context, 'home_btn_txt'),
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(
             Icons.bookmark_outline,
           ),
           activeIcon: Icon(
             Icons.bookmark,
           ),
-          label: 'Bookmarks',
-          tooltip: 'Bookmarks',
+          label: getTranslated(context, 'bookmark_btn_txt'),
+          tooltip: getTranslated(context, 'bookmark_btn_txt'),
         ),
         BottomNavigationBarItem(
           icon: Stack(
@@ -211,8 +212,8 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
               buildBadge(_consultingBadgeCount)
             ],
           ),
-          label: 'Consulting',
-          tooltip: 'Consulting',
+          label: getTranslated(context, 'consulting_btn_txt'),
+          tooltip: getTranslated(context, 'consulting_btn_txt'),
         ),
       ],
     );

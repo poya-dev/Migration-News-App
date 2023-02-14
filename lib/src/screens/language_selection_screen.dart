@@ -49,9 +49,9 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   margin: const EdgeInsets.only(top: 32),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        'به',
+                        getTranslated(context, 'to'),
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
@@ -62,7 +62,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         width: 4,
                       ),
                       Text(
-                        'معلومات مهاجرت',
+                        getTranslated(context, 'app_name'),
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.lightBlue,
@@ -73,7 +73,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                         width: 4,
                       ),
                       Text(
-                        'خوش آمدید',
+                        getTranslated(context, 'welcome'),
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
@@ -139,8 +139,8 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                             ),
                           );
                         },
-                        child: const Text(
-                          'ادامه',
+                        child: Text(
+                          getTranslated(context, 'continue_btn'),
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
