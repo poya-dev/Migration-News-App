@@ -140,7 +140,58 @@ class SettingScreen extends StatelessWidget {
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
               onTap: () {
-                context.read<AuthBloc>().add(SignOutRequested());
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    title: Text(
+                      'هشدار',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontFamily: 'BNazann',
+                      ),
+                    ),
+                    content: Text(
+                      'مطمین استید که از اپلیکیشن خارج میشوید؟',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 18,
+                        fontFamily: 'BNazann',
+                      ),
+                    ),
+                    actions: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text(
+                              "نخیر",
+                              style: TextStyle(
+                                fontFamily: 'BNazann',
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => context
+                                .read<AuthBloc>()
+                                .add(SignOutRequested()),
+                            child: const Text(
+                              "بله",
+                              style: TextStyle(
+                                fontFamily: 'BNazann',
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+
+                //
               },
               title: Text(
                 'خارج شدن',
