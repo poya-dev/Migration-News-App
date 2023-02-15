@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -57,12 +59,12 @@ class FCMService {
     );
   }
 
-  static Future<void> getDeviceToken() async {
-    FCMService.getFMInstance()
-        .getToken()
-        .then((token) => print('------getDeviceToken------$token'))
-        .catchError(
-            (error) => print('error on getting device token ---> $error'));
+  static Future<String?> getDeviceToken() async {
+    final deviceToken = await FCMService._firebaseMessaging?.getToken();
+    if (deviceToken!.isEmpty) {
+      return null;
+    }
+    return deviceToken;
   }
 
   static FirebaseMessaging getFMInstance() {
