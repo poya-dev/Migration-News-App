@@ -47,6 +47,19 @@ class ApiService {
     }
   }
 
+  static Future<void> sendDeviceToken(String deviceToken) async {
+    try {
+      final token = UserPrefs.getToken();
+      await client.post(
+        Uri.parse(ApiEndpoints.deviceToken),
+        headers: {'Authorization': 'Bearer $token'},
+        body: {"deviceToken": deviceToken},
+      );
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
+
   static Future<Response<List<Category>>> getCategories() async {
     try {
       final token = UserPrefs.getToken();

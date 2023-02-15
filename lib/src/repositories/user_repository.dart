@@ -9,4 +9,8 @@ class UserRepository {
   Future<User> signInWithFacebook(String accessToken) async {
     return await ApiService.signInWithFacebook(accessToken);
   }
+
+  Future<void> sendDeviceToken(String deviceToken) async {
+    return await ApiService.sendDeviceToken(deviceToken);
+  }
 }
