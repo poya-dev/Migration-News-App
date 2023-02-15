@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/preferences/language_prefs.dart';
 
+import '../../preferences/language_prefs.dart';
+import '../../services/fcm_service.dart';
 import '../../repositories/user_repository.dart';
 import '../../services/auth_service.dart';
 import '../../preferences/user_prefs.dart';
@@ -25,6 +26,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final idToken = await AuthService.googleSignIn();
           final user = await userRepository.signInWithGoogle(idToken);
           UserPrefs.setUser(user);
+          final deviceToken = await FCMService.getDeviceToken();
+          if (deviceToken != null)
+            await userRepository.sendDeviceToken(deviceToken);
           emit(Authenticated(user: user));
         } catch (e) {
           emit(AuthError(error: e.toString()));
@@ -38,6 +42,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           final accessToken = await AuthService.facebookSignIn();
           final user = await userRepository.signInWithFacebook(accessToken);
+          final deviceToken = await FCMService.getDeviceToken();
+          if (deviceToken != null)
+            await userRepository.sendDeviceToken(deviceToken);
           emit(Authenticated(user: user));
         } catch (e) {
           emit(AuthError(error: e.toString()));
