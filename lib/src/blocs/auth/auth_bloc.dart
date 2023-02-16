@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await userRepository.sendDeviceToken(deviceToken);
           emit(Authenticated(user: user));
         } catch (e) {
-          emit(AuthError(error: e.toString()));
+          emit(AuthError(error: 'Something went wrong'));
           emit(UnAuthenticated());
         }
       },
@@ -47,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await userRepository.sendDeviceToken(deviceToken);
           emit(Authenticated(user: user));
         } catch (e) {
-          emit(AuthError(error: e.toString()));
+          emit(AuthError(error: 'Something went wrong'));
           emit(UnAuthenticated());
         }
       },
@@ -61,7 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await AuthService.signOut();
         emit(UnAuthenticated());
       } catch (e) {
-        emit(AuthError(error: e.toString()));
+        emit(AuthError(error: 'Something went wrong'));
+        emit(UnAuthenticated());
       }
     });
   }

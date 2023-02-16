@@ -12,6 +12,8 @@ import './blocs/search/search_bloc.dart';
 import './blocs/bookmark/bookmark_bloc.dart';
 import './blocs/consulting/consulting_bloc.dart';
 import './blocs/news_detail/news_detail_bloc.dart';
+import './blocs/network/network_bloc.dart';
+import './blocs/network/network_event.dart';
 import './repositories/user_repository.dart';
 import './repositories/news_repository.dart';
 import './repositories/consulting_repository.dart';
@@ -61,6 +63,9 @@ class MyApp extends StatelessWidget {
           create: (context) => NewsDetailBloc(
             newsRepository: NewsRepository(),
           ),
+        ),
+        BlocProvider(
+          create: (context) => NetworkBloc()..add(NetworkObserved()),
         ),
       ],
       child: BlocBuilder<LocaleBloc, AppLocaleState>(
