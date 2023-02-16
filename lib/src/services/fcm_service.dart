@@ -17,7 +17,6 @@ class FCMService {
   );
 
   static Future<void> initializeFirebase() async {
-    print('-------initializeFirebase-------');
     await Firebase.initializeApp();
     FCMService._firebaseMessaging = FirebaseMessaging.instance;
   }
@@ -33,7 +32,6 @@ class FCMService {
       provisional: false,
       sound: true,
     );
-    print('-------requestPermission--------->${settings!.authorizationStatus}');
   }
 
   static Future<void> initializeLocalNotification() async {
