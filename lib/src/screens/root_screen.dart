@@ -147,6 +147,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is UnAuthenticated) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
