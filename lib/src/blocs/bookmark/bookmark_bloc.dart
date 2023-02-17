@@ -26,6 +26,24 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
         }
       },
     );
+    on<BookmarkReFetched>(
+      (BookmarkReFetched event, Emitter<BookmarkState> emit) async {
+        try {
+          emit(state.copyWith(status: BookmarkStatus.initial));
+          final Response<List<News>> bookmarks =
+              await newsRepository.getBookmarks();
+          emit(state.copyWith(
+            bookmarks: bookmarks.data,
+            status: BookmarkStatus.success,
+          ));
+        } catch (e) {
+          emit(state.copyWith(
+            status: BookmarkStatus.failure,
+            error: e.toString(),
+          ));
+        }
+      },
+    );
     on<BookmarkRemoved>((event, emit) async {
       try {
         final newState = [...state.bookmarks];

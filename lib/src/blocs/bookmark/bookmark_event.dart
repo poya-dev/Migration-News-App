@@ -7,6 +7,8 @@ abstract class BookmarkEvent extends Equatable {
 
 class BookmarkFetched extends BookmarkEvent {}
 
+class BookmarkReFetched extends BookmarkEvent {}
+
 class BookmarkRemoved extends BookmarkEvent {
   BookmarkRemoved({required this.newsId});
 
