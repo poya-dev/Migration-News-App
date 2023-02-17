@@ -16,6 +16,7 @@ import '../blocs/news/news_event.dart';
 import '../blocs/news/news_state.dart';
 import './news_details_screen.dart';
 import '../utils/translation_util.dart';
+import '../widgets/make_error.dart';
 import '../widgets/news_item.dart';
 import './search_screen.dart';
 import '../widgets/loader.dart';
@@ -121,24 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, newsState) {
-                  if (newsState is CategoryLoading) {
-                    return Container(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 1.5),
-                    );
-                  }
-                  if (newsState is CategoryFailure) {
-                    return Container(
-                      padding: const EdgeInsets.all(6),
-                      child: const Center(
-                        child: Text('Failed to fetch category'),
-                      ),
-                    );
-                  }
-                  if (newsState is CategorySuccess) {
-                    final categoryList = newsState.categories;
+                builder: (context, newsCategoryState) {
+                  if (newsCategoryState is CategorySuccess) {
+                    final categoryList = newsCategoryState.categories;
                     return SingleChildScrollView(
                       padding: const EdgeInsets.fromLTRB(15, 5, 7, 20),
                       scrollDirection: Axis.horizontal,
@@ -160,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 setState(
                                   () {
                                     if (index == 0) {
-                                      _category = 'all';
+                                      _category = 'All';
                                     } else {
                                       _category = categoryList[index].name;
                                     }
@@ -169,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                                 if (index == 0) {
                                   context.read<NewsBloc>()
-                                    ..add(NewsFetched('all'));
+                                    ..add(NewsFetched('All'));
                                 }
                                 context.read<NewsBloc>()
                                   ..add(NewsFetched(categoryList[index].name));
@@ -191,11 +177,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const Loader();
                     }
                     if (state.status == Status.failure) {
-                      return Container(
-                        padding: const EdgeInsets.all(6),
-                        child: const Center(
-                          child: Text('Failed to load News'),
-                        ),
+                      return MakeError(
+                        error: getTranslated(context, 'something_went_wrong'),
+                        onTap: () {
+                          context.read<NewsBloc>()..add(ResetNewsRequested());
+                          context.read<CategoryBloc>()..add(CategoryFetched());
+                          context.read<NewsBloc>()..add(NewsFetched('All'));
+                        },
                       );
                     }
                     if (state.status == Status.success) {
