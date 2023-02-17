@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/src/screens/about_app_screen.dart';
+import 'package:news_app/src/screens/privacy_policy_screen.dart';
+import 'package:news_app/src/screens/user_agreement_screen.dart';
 
 import './change_language_screen.dart';
 import '../blocs/auth/auth_bloc.dart';
@@ -80,6 +83,14 @@ class SettingScreen extends StatelessWidget {
               style: ListTileStyle.drawer,
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutAppScreen(),
+                  ),
+                );
+              },
               title: Text(
                 getTranslated(context, 'about_app'),
                 style: TextStyle(
@@ -95,6 +106,14 @@ class SettingScreen extends StatelessWidget {
               style: ListTileStyle.drawer,
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PrivacyPolicyScreen(),
+                  ),
+                );
+              },
               title: Text(
                 getTranslated(context, 'privacy_policy'),
                 style: TextStyle(
@@ -110,6 +129,14 @@ class SettingScreen extends StatelessWidget {
               style: ListTileStyle.drawer,
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserAgreementScreen(),
+                  ),
+                );
+              },
               title: Text(
                 getTranslated(context, 'usage_condition'),
                 style: TextStyle(
@@ -119,7 +146,7 @@ class SettingScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              leading: Icon(Icons.details),
+              leading: Icon(Icons.data_usage_sharp),
             ),
             ListTile(
               style: ListTileStyle.drawer,
@@ -134,7 +161,7 @@ class SettingScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              leading: Icon(Icons.feedback),
+              leading: Icon(Icons.star_outline_sharp),
             ),
             ListTile(
               style: ListTileStyle.drawer,
