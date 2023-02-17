@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/news_detail/news_detail_bloc.dart';
+import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/search/search_bloc.dart';
 import '../blocs/search/search_event.dart';
 import '../blocs/search/search_state.dart';
@@ -9,6 +11,7 @@ import '../widgets/custom_round_textbox.dart';
 import '../widgets/news_item.dart';
 import '../widgets/loader.dart';
 import '../utils/translation_util.dart';
+import './news_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
@@ -82,12 +85,31 @@ class _SearchScreenState extends State<SearchScreen> {
                   if (state.news.length == 0) {
                     return Text('News not found');
                   }
+                  // final newsState = context.select((NewsBloc bloc) => bloc);
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.news.length,
                     physics: const ScrollPhysics(),
                     itemBuilder: (context, index) {
                       return NewsItem(
+                        onBookmarkTap: () {
+                          // context
+                          //     .read<NewsBloc>()
+                          //     .add(NewsBookmarked(state.news[index].id));
+                        },
+                        onTap: () {
+                          context
+                              .read<NewsDetailBloc>()
+                              .add(NewsDetailFetched(state.news[index].id));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewsDetailsScreen(
+                                newsId: state.news[index].id,
+                              ),
+                            ),
+                          );
+                        },
                         data: state.news[index],
                       );
                     },
