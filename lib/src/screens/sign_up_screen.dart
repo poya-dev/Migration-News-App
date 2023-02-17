@@ -12,6 +12,7 @@ import '../blocs/auth/auth_state.dart';
 import '../blocs/auth/auth_event.dart';
 import './root_screen.dart';
 import '../utils/translation_util.dart';
+import 'user_agreement_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -120,7 +121,15 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UserAgreementScreen(),
+                                ),
+                              );
+                            },
                             child: Padding(
                               padding: EdgeInsets.only(left: 4, right: 4),
                               child: Text(
