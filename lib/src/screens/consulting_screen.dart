@@ -6,6 +6,7 @@ import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/consulting/consulting_state.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/make_error.dart';
 import './consulting_form_screen.dart';
 import '../utils/convert_to_ago.dart';
 import '../widgets/loader.dart';
@@ -93,12 +94,45 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                       );
                     }
                     if (state is ConsultingResponseFailure) {
-                      return const Center(
-                        child: Text('Failed to get consulting response'),
+                      return MakeError(
+                        error: getTranslated(context, 'something_went_wrong'),
+                        onTap: () {
+                          context
+                              .read<ConsultingBloc>()
+                              .add(ConsultingResponseFetched());
+                        },
                       );
                     }
                     if (state is ConsultingResponseSuccess) {
                       final response = state.consultingResponse.data;
+                      if (response!.isEmpty) {
+                        return Container(
+                          margin: const EdgeInsets.only(top: 100),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'اگر فورم مشوره تلفونی قبلآ پر نموده اید لطفآ منتظر باشید تا ما به آن پاسخ دهیم.',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'BNazann',
+                                    color: Colors.black87.withOpacity(.7),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 18),
+                              Icon(
+                                Icons.file_copy_outlined,
+                                size: 36,
+                                color: Colors.black87.withOpacity(.5),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
