@@ -9,7 +9,9 @@ import '../blocs/bookmark/bookmark_state.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/news/news_event.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/make_error.dart';
 import './news_details_screen.dart';
+import '../utils/translation_util.dart';
 import '../widgets/news_item.dart';
 import '../widgets/loader.dart';
 
@@ -25,14 +27,38 @@ class BookmarkScreen extends StatelessWidget {
             return const Loader();
           }
           if (state.status == BookmarkStatus.failure) {
-            return Container(
-              padding: const EdgeInsets.all(6),
-              child: const Center(
-                child: Text('Failed to load bookmarks'),
-              ),
+            return MakeError(
+              error: getTranslated(context, 'something_went_wrong'),
+              onTap: () {
+                context.read<BookmarkBloc>()..add(BookmarkReFetched());
+              },
             );
           }
           if (state.status == BookmarkStatus.success) {
+            if (state.bookmarks.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ثبت شده ها خالی میباشد',
+                      style: TextStyle(
+                        fontFamily: 'BNazann',
+                        color: Colors.black54,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    const Icon(
+                      Icons.bookmarks_outlined,
+                      size: 36,
+                      color: Colors.black38,
+                    )
+                  ],
+                ),
+              );
+            }
             final newsState = context.select((NewsBloc bloc) => bloc);
             final bookmarks = state.bookmarks;
             return ListView.builder(
