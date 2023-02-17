@@ -114,7 +114,8 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'اگر فورم مشوره تلفونی قبلآ پر نموده اید لطفآ منتظر باشید تا ما به آن پاسخ دهیم.',
+                                  getTranslated(
+                                      context, 'if_already_filled_txt'),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'BNazann',
@@ -136,7 +137,7 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: const ScrollPhysics(),
-                        itemCount: response!.length,
+                        itemCount: response.length,
                         itemBuilder: (context, index) {
                           return ConsultingResponseMessage(
                             timeAgo: convertToAgo(

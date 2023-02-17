@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/src/utils/translation_util.dart';
 
 class MakeError extends StatelessWidget {
   const MakeError({
@@ -32,7 +33,7 @@ class MakeError extends StatelessWidget {
           SizedBox(height: 18),
           ElevatedButton(
             onPressed: onTap,
-            child: Text('تلاش مجدد'),
+            child: Text(getTranslated(context, 'try_again')),
           )
         ],
       ),

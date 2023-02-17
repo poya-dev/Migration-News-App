@@ -41,7 +41,7 @@ class BookmarkScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'ثبت شده ها خالی میباشد',
+                      getTranslated(context, 'bookmark_is_empty'),
                       style: TextStyle(
                         fontFamily: 'BNazann',
                         color: Colors.black54,
