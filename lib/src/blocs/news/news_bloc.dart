@@ -63,7 +63,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       ));
       page++;
     } catch (e) {
-      emit(state.copyWith(error: e.toString()));
+      emit(state.copyWith(error: e.toString(), status: Status.failure));
     }
   }
 
@@ -84,7 +84,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       ));
       page++;
     } catch (e) {
-      emit(state.copyWith(error: e.toString()));
+      emit(state.copyWith(error: e.toString(), status: Status.failure));
     }
   }
 
@@ -125,7 +125,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         await newsRepository.removeBookmark(event.newsId);
       }
     } catch (e) {
-      emit(state.copyWith(error: e.toString()));
+      emit(state.copyWith(error: e.toString(), status: Status.failure));
     }
   }
 }
