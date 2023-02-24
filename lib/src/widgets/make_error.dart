@@ -20,13 +20,14 @@ class MakeError extends StatelessWidget {
           Icon(
             Icons.error_outline,
             size: 50,
-            color: Colors.black45,
+            color: Colors.black87.withOpacity(.5),
           ),
           const SizedBox(height: 12),
           Text(
             error,
             style: TextStyle(
               fontSize: 18,
+              color: Colors.black87.withOpacity(.5),
               fontFamily: 'BNazann',
             ),
           ),
