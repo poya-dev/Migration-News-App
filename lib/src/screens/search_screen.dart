@@ -9,6 +9,7 @@ import '../blocs/search/search_state.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_round_textbox.dart';
 import '../widgets/news_item.dart';
+import '../widgets/search_error.dart';
 import '../widgets/loader.dart';
 import '../utils/translation_util.dart';
 import './news_details_screen.dart';
@@ -76,27 +77,21 @@ class _SearchScreenState extends State<SearchScreen> {
             child: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
                 if (state is SearchLoadIsEmpty) {
-                  return Text('News not found');
+                  return SearchError();
                 }
                 if (state is SearchIsLoading) {
                   return Loader();
                 }
                 if (state is SearchLoadSuccess) {
                   if (state.news.length == 0) {
-                    return Text('News not found');
+                    return SearchError();
                   }
-                  // final newsState = context.select((NewsBloc bloc) => bloc);
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.news.length,
                     physics: const ScrollPhysics(),
                     itemBuilder: (context, index) {
                       return NewsItem(
-                        onBookmarkTap: () {
-                          // context
-                          //     .read<NewsBloc>()
-                          //     .add(NewsBookmarked(state.news[index].id));
-                        },
                         onTap: () {
                           context
                               .read<NewsDetailBloc>()
@@ -122,5 +117,11 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
   }
 }
