@@ -10,6 +10,7 @@ import '../blocs/consulting/consulting_bloc.dart';
 import '../blocs/consulting/consulting_event.dart';
 import '../blocs/bookmark/bookmark_bloc.dart';
 import '../blocs/bookmark/bookmark_event.dart';
+import '../screens/news_details_screen.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
 import '../blocs/news/news_event.dart';
@@ -57,7 +58,11 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
             .add(NewsDetailFetched(message.data['id']));
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ConsultingScreen()),
+          MaterialPageRoute(
+            builder: (context) => NewsDetailsScreen(
+              newsId: message.data['id'],
+            ),
+          ),
         );
       }
     }
