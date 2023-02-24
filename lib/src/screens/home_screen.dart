@@ -18,6 +18,7 @@ import './news_details_screen.dart';
 import '../utils/translation_util.dart';
 import '../widgets/make_error.dart';
 import '../widgets/news_item.dart';
+import '../widgets/not_found.dart';
 import './search_screen.dart';
 import '../widgets/loader.dart';
 
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _scrollController = ScrollController();
 
-  late BannerAd _bottomBannerAd;
   late BannerAd _inlineBannerAd;
 
   void _createInlineBannerAd() {
@@ -143,16 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 context.read<NewsBloc>()
                                   ..add(ResetNewsRequested());
-                                setState(
-                                  () {
-                                    if (index == 0) {
-                                      _category = 'All';
-                                    } else {
-                                      _category = categoryList[index].name;
-                                    }
-                                    _selectedCategoryIndex = index;
-                                  },
-                                );
+                                setState(() {
+                                  if (index == 0) {
+                                    _category = 'All';
+                                  } else {
+                                    _category = categoryList[index].name;
+                                  }
+                                  _selectedCategoryIndex = index;
+                                });
                                 if (index == 0) {
                                   context.read<NewsBloc>()
                                     ..add(NewsFetched('All'));
@@ -189,9 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (state.status == Status.success) {
                       final news = state.news;
                       if (news.isEmpty) {
-                        return Center(
-                          child: Text('News not found'),
-                        );
+                        return NotFound();
                       }
                       return ListView.builder(
                         shrinkWrap: true,
@@ -199,12 +195,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: state.hasReachedMax
                             ? state.news.length
                             : state.news.length + 1,
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const ScrollPhysics(),
                         itemBuilder: (context, index) {
                           return index >=
                                   state.news.length +
                                       (_isInlineBannerAdLoaded ? 1 : 0)
-                              ? const Loader()
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                  ),
+                                  child: const Loader(),
+                                )
                               : (_isInlineBannerAdLoaded &&
                                       index == _inlineAdIndex)
                                   ? Container(
@@ -264,7 +265,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _bottomBannerAd.dispose();
     _inlineBannerAd.dispose();
     super.dispose();
   }
