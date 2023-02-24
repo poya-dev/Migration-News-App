@@ -111,24 +111,25 @@ class _ConsultingScreenState extends State<ConsultingScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                size: 36,
+                                color: Colors.black87.withOpacity(.5),
+                              ),
+                              const SizedBox(height: 6),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   getTranslated(
-                                      context, 'if_already_filled_txt'),
+                                    context,
+                                    'if_already_filled_txt',
+                                  ),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'BNazann',
-                                    color: Colors.black87.withOpacity(.7),
-                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black87.withOpacity(.5),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 18),
-                              Icon(
-                                Icons.file_copy_outlined,
-                                size: 36,
-                                color: Colors.black87.withOpacity(.5),
                               ),
                             ],
                           ),
