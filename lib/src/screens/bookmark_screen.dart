@@ -40,21 +40,21 @@ class BookmarkScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      getTranslated(context, 'bookmark_is_empty'),
-                      style: TextStyle(
-                        fontFamily: 'BNazann',
-                        color: Colors.black54,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    const SizedBox(height: 18),
                     const Icon(
                       Icons.bookmarks_outlined,
                       size: 36,
                       color: Colors.black38,
-                    )
+                    ),
+                    const SizedBox(height: 18),
+                    Text(
+                      getTranslated(context, 'bookmark_is_empty'),
+                      style: TextStyle(
+                        fontFamily: 'BNazann',
+                        color: Colors.black87.withOpacity(.5),
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
                   ],
                 ),
               );
