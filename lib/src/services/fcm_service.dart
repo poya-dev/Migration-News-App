@@ -10,8 +10,8 @@ class FCMService {
 
   static const AndroidNotificationChannel _notificationChannel =
       AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
+    'high_importance_channel',
+    'High Importance Notifications',
     importance: Importance.high,
     enableVibration: true,
   );
@@ -76,11 +76,7 @@ class FCMService {
   }
 
   static Future<void> fcmBackgroundHandler(RemoteMessage message) async {
-    print("handling background message.messageId ${message.messageId}");
-    print(
-        "handling background notification!.title ${message.notification!.title}");
-    print(
-        "handling background message.notification!.body ${message.notification!.body}");
+    print("handling background message.notification ${message.notification}");
     print("handling background message.data ${message.data}");
   }
 
@@ -89,10 +85,9 @@ class FCMService {
   }
 
   static Future<void> fcmForegroundHandler(RemoteMessage message) async {
-    print("handling background message.messageId ${message.messageId}");
-    print("handling background message ${message.notification}");
-    print("handling background message.data ${message.data}");
-    await FCMService.showNotification(message);
+    print("handling Foreground message.notification ${message.notification}");
+    print("handling Foreground message.data ${message.data}");
+    // await FCMService.showNotification(message);
   }
 
   static Future<void> showNotification(RemoteMessage message) async {
