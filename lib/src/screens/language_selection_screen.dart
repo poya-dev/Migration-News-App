@@ -17,7 +17,7 @@ class LanguageSelectionScreen extends StatefulWidget {
 }
 
 class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
-  final languages = ['دری', 'پشتو'];
+  final languages = ['فارسی', 'پشتو'];
   int selectedLanguageIndex = 0;
 
   @override
@@ -40,7 +40,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                     height: 200,
                     width: 200,
                     child: Image.asset(
-                      'assets/icons/logo-blue-300x300.png',
+                      'assets/icons/logoai-copy.png',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -117,38 +117,36 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 const SizedBox(
                   height: 12,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            Colors.lightBlue,
-                          ),
-                        ),
-                        onPressed: () {
-                          if (selectedLanguageIndex == 0)
-                            context.read<LocaleBloc>().add(
-                                const LocaleChanged(lang: Language.persian));
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          getTranslated(context, 'continue_btn'),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Colors.lightBlue,
                         ),
                       ),
-                    ],
-                  ),
+                      onPressed: () {
+                        if (selectedLanguageIndex == 0)
+                          context
+                              .read<LocaleBloc>()
+                              .add(const LocaleChanged(lang: Language.persian));
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        getTranslated(context, 'continue_btn'),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
