@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../blocs/news_detail/news_detail_bloc.dart';
 import '../blocs/news_detail/news_detail_event.dart';
 import '../blocs/news_detail/news_detail_state.dart';
+import '../widgets/custom_html.dart';
+import '../widgets/make_error.dart';
 import '../blocs/news/news_bloc.dart';
 import '../blocs/news/news_event.dart';
 import '../utils/translation_util.dart';
@@ -89,8 +90,11 @@ class NewsDetailsScreen extends StatelessWidget {
             return const Loader();
           }
           if (state.status == NewsDetailStatus.failure) {
-            return const Center(
-              child: Text('something went wrong'),
+            return MakeError(
+              error: getTranslated(context, 'something_went_wrong'),
+              onTap: () {
+                context.read<NewsDetailBloc>()..add(NewsDetailFetched(newsId));
+              },
             );
           }
           if (state.status == NewsDetailStatus.success) {
@@ -178,9 +182,7 @@ class NewsDetailsScreen extends StatelessWidget {
                     const SizedBox(
                       height: 18,
                     ),
-                    Html(
-                      data: newsDetail.content,
-                    ),
+                    CustomHtml(data: newsDetail.content),
                   ],
                 ),
               ),
