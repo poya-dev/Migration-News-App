@@ -39,8 +39,8 @@ class SocialButton extends StatelessWidget {
               text,
               style: const TextStyle(
                 color: Colors.white,
+                fontFamily: 'BNazann',
                 fontSize: 20,
-                letterSpacing: 1.5,
                 fontWeight: FontWeight.bold,
               ),
             )
