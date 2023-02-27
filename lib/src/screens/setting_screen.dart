@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/src/screens/about_app_screen.dart';
-import 'package:news_app/src/screens/privacy_policy_screen.dart';
-import 'package:news_app/src/screens/user_agreement_screen.dart';
+import 'package:launch_review/launch_review.dart';
 
+import '../screens/about_app_screen.dart';
+import '../screens/privacy_policy_screen.dart';
+import '../screens/user_agreement_screen.dart';
 import './change_language_screen.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_event.dart';
@@ -152,6 +153,10 @@ class SettingScreen extends StatelessWidget {
               style: ListTileStyle.drawer,
               iconColor: Colors.lightBlue,
               minLeadingWidth: 5,
+              onTap: () async => await LaunchReview.launch(
+                androidAppId: "com.migration_information.app",
+                // iOSAppId: "585027354",
+              ),
               title: Text(
                 getTranslated(context, 'rate_our_app'),
                 style: TextStyle(
