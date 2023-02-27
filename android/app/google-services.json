@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:463323672937:android:6aab8e796882fcc92a0df8",
+        "mobilesdk_app_id": "1:463323672937:android:44ba57f8a3947d532a0df8",
         "android_client_info": {
-          "package_name": "com.example.news_app"
+          "package_name": "com.migration_information.app"
         }
       },
       "oauth_client": [
