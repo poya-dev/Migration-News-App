@@ -17,7 +17,7 @@ class ChangeLanguageScreen extends StatefulWidget {
 }
 
 class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
-  final languages = ['دری', 'پشتو'];
+  final languages = ['فارسی', 'پشتو'];
   int selectedLanguageIndex = 0;
 
   @override
