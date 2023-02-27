@@ -56,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       height: 200,
                       width: 200,
                       child: Image.asset(
-                        'assets/icons/logo-blue-300x300.png',
+                        'assets/icons/logoai-copy.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -72,8 +72,9 @@ class SignUpScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 16,
+                          color: Colors.black87.withOpacity(.5),
+                          fontFamily: 'BNazann',
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -116,7 +117,8 @@ class SignUpScreen extends StatelessWidget {
                             getTranslated(context, 'app_privacy_and_policy_1'),
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 14,
+                              fontFamily: 'BNazann',
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -137,7 +139,8 @@ class SignUpScreen extends StatelessWidget {
                                     context, 'app_privacy_and_policy_2'),
                                 style: TextStyle(
                                   color: Colors.lightBlue,
-                                  fontSize: 14,
+                                  fontFamily: 'BNazann',
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
@@ -149,7 +152,8 @@ class SignUpScreen extends StatelessWidget {
                             getTranslated(context, 'app_privacy_anc_policy_3'),
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 14,
+                              fontFamily: 'BNazann',
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
