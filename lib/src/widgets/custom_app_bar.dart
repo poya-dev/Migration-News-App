@@ -33,8 +33,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: SvgPicture.asset(
                   'assets/icons/profile.svg',
                   color: darker,
-                  width: 28,
-                  height: 28,
+                  width: 32,
+                  height: 32,
                 ),
               ),
               const SizedBox(
@@ -52,10 +52,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           IconBox(
             isShadow: false,
             child: Image.asset(
-              'assets/icons/logo-blue-300x300.png',
+              'assets/icons/white-logo.png',
               color: Colors.blue,
-              width: 32,
-              height: 32,
+              width: 48,
+              height: 48,
             ),
           ),
         ],
