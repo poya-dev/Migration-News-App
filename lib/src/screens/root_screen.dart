@@ -51,20 +51,17 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
         context,
         MaterialPageRoute(builder: (context) => ConsultingScreen()),
       );
-
-      if (message.data['type'] == 'newPost') {
-        context
-            .read<NewsDetailBloc>()
-            .add(NewsDetailFetched(message.data['id']));
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NewsDetailsScreen(
-              newsId: message.data['id'],
-            ),
+    }
+    if (message.data['type'] == 'Post') {
+      context.read<NewsDetailBloc>().add(NewsDetailFetched(message.data['id']));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NewsDetailsScreen(
+            newsId: message.data['id'],
           ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -111,7 +108,7 @@ class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   onPageChanged(BuildContext context, int index) {
     if (index == 0 && _shouldHomeRefresh && _newsBadgeCount > 0) {
       context.read<NewsBloc>()..add(ResetNewsRequested());
-      context.read<NewsBloc>()..add(NewsFetched('all'));
+      context.read<NewsBloc>()..add(NewsFetched('All'));
       _badgeBloc.resetNewsBadgeCount;
     }
     if (index == 0 && _newsBadgeCount > 0) {
